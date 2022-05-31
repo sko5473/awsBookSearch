@@ -61,8 +61,8 @@ ul li {
     </div>
 
     <div id="outter">
-        <div style="float: right;">
-            <select id="cntPerPage" name="sel" th:onchange="selChange()">
+        <div style="float: left;">
+            <select id="cntPerPage" th:name="sel" th:onchange="selChange()">
                 <option th:value="5" th:selected="${paging.cntPerPage}== 5">5줄 보기</option>
                 <option th:value="10" th:selected="${paging.cntPerPage} == 10">10줄 보기</option>
                 <option th:value="15" th:selected="${paging.cntPerPage} == 15">15줄 보기</option>
@@ -91,6 +91,9 @@ ul li {
         <tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}">
             <td th:text="${list.bid}"></td>
             <td class="title">
+                <th:block th:each="Level : ${#numbers.sequence(0,list.reply_Level)}">
+                    <th:block th:if="${Level} != 0">&nbsp;&nbsp;&nbsp;</th:block>
+                </th:block>
                 <a href="boardDetail.do?bid=" th:attrappend="href=${list.bid}" th:text="${list.title}" style="text-decoration-line:none;
                 color:black;"></a>
             </td>
