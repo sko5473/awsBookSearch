@@ -5,54 +5,52 @@
     <!-- 게시판 목록 조회 -->
     <select id="selectBoardListWithPaging" parameterType="kwang.ho.board.PagingVO" resultType="kwang.ho.board.BoardDto">
 		<![CDATA[
-		SELECT bid, title, creator_Id, hit_cnt, CREATED_DATETIME
+		SELECT rn, bid, title, creator_Id, hit_Cnt, created_Datetime,reply_Level
         FROM (
-       		SELECT /*+ INDEX_DESC(T_BOARD PK_T_BOARD)*/
-        	rownum rn, BID, title, creator_Id, hit_cnt, CREATED_DATETIME
+       		SELECT
+        	row_number() over(order by bid_Parent desc, reply_Level ASC) as rn,bid, title, creator_Id, hit_Cnt, created_Datetime, reply_Level
         	FROM t_board
         )
         where rn between #{start} and #{end}
 		]]>
     </select>
 
-	<select id="selectBoardTotalCount" resultType="int">
-		SELECT COUNT(*)
-		FROM T_BOARD
+	<!-- 게시판 상세보기 -->
+	<select id="selectBoardDetail" parameterType="int" resultType="kwang.ho.board.BoardDto" >
+		<![CDATA[
+			SELECT bid, title, contents, hit_Cnt, TO_CHAR(created_Datetime, 'YYYY-MM-DD HH24:MI:SS') AS created_Datetime, creator_id
+			FROM t_board
+			WHERE bid=#{bid} AND deleted_YN='N'
+		 ]]>
 	</select>
 
+	<!-- 게시판 등록 -->
 	<insert id="insertBoard" parameterType="kwang.ho.board.BoardDto">
+		<selectKey resultType="int" keyProperty="bid_Parent" order="BEFORE">
+			SELECT NVL(MAX(bid), 0) + 1
+			FROM T_BOARD
+		</selectKey>
+
 		<![CDATA[
 			INSERT INTO t_board
 			(
-				bid, title, contents, created_datetime,creator_id
+				bid, bid_Parent, title, contents, created_datetime, creator_id, UPDATED_DATETIME, UPDATER_ID
 			)
 			VALUES
 			(
 				kwang_seq.nextval,
+				#{bid_Parent},
 				#{title},
 				#{contents},
+				sysdate,
+				'kim',
 				sysdate,
 				'kim'
 			)
 		]]>
 	</insert>
 
-	<update id="updateHitCount" parameterType="int">
-		<![CDATA[
-			UPDATE T_BOARD
-			SET HIT_CNT = HIT_CNT+1
-			WHERE bid=#{bid}
-		]]>
-	</update>
-
-	<select id="selectBoardDetail" parameterType="int" resultType="kwang.ho.board.BoardDto" >
-		<![CDATA[
-			SELECT bid, title, contents, hit_cnt, TO_CHAR(created_datetime, 'YYYY-MM-DD HH24:MI:SS') AS createdDatetime, creator_id
-			FROM t_board
-			WHERE bid=#{bid} AND deleted_YN='N'
-		 ]]>
-	</select>
-
+	<!-- 게시판 삭제 -->
 	<delete id="boardDelete" parameterType="int">
 		<![CDATA[
 			DELETE FROM T_BOARD
@@ -60,6 +58,16 @@
 		 ]]>
 	</delete>
 
+	<!-- 게시판 수정페이지 호출 -->
+	<select id="selectOpenBoardModify" parameterType="int" resultType="kwang.ho.board.BoardDto" >
+		<![CDATA[
+			SELECT bid, title, contents, hit_cnt, TO_CHAR(created_datetime, 'YYYY-MM-DD HH24:MI:SS') AS createdDatetime, creator_id
+			FROM t_board
+			WHERE bid=#{bid} AND deleted_YN='N'
+		 ]]>
+	</select>
+
+	<!-- 게시판 수정 -->
 	<update id="boardModify" parameterType="kwang.ho.board.BoardDto" >
 		<![CDATA[
 			UPDATE
@@ -74,11 +82,67 @@
 		]]>
 	</update>
 
-	<select id="selectOpenBoardModify" parameterType="int" resultType="kwang.ho.board.BoardDto" >
+	<!-- 게시판 갯수 -->
+	<select id="selectBoardTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM T_BOARD
+	</select>
+
+	<!-- 게시판 조회수 -->
+	<update id="updateHitCount" parameterType="int">
+		<![CDATA[
+			UPDATE T_BOARD
+			SET hit_Cnt = hit_Cnt+1
+			WHERE bid=#{bid}
+		]]>
+	</update>
+
+	<!-- 게시판 답글 등록 페이지 호출 -->
+	<select id="selectBoardReplyWrite" parameterType="int" resultType="kwang.ho.board.BoardDto" >
 		<![CDATA[
 			SELECT bid, title, contents, hit_cnt, TO_CHAR(created_datetime, 'YYYY-MM-DD HH24:MI:SS') AS createdDatetime, creator_id
 			FROM t_board
 			WHERE bid=#{bid} AND deleted_YN='N'
 		 ]]>
 	</select>
+
+	<!-- 게시판 답글 등록-->
+	<insert id="boardReply" parameterType="kwang.ho.board.BoardDto">
+
+		<![CDATA[
+			INSERT INTO t_board
+			(
+				bid, title, contents, created_datetime,creator_id, UPDATED_DATETIME, UPDATER_ID, bid_Parent,reply_Level,reply_Step
+			)
+			VALUES
+			(
+				kwang_seq.nextval,
+				'[RE]'||#{title},
+				#{contents},
+				sysdate,
+				'kim',
+				sysdate,
+				'kim',
+				#{bid_Parent},
+				#{reply_Level},
+				#{reply_Step}
+			)
+		]]>
+	</insert>
+
+	<!-- 게시판 답글 순서 -->
+	<update id="updateBoardReplyStep" parameterType="kwang.ho.board.BoardDto">
+		UPDATE T_BOARD
+		SET reply_Step = reply_Step + 1
+		WHERE bid_Parent = #{bid_Parent}
+		AND reply_Step > #{reply_Step}
+	</update>
+
+	<!-- 게시판 답글관련 부모글 조회 -->
+	<select id="selectParentBoard" parameterType="int" resultType="kwang.ho.board.BoardDto">
+		select bid_Parent, reply_Level, reply_Step
+		from t_board
+		where bid=#{bid}
+	</select>
+
 </mapper>
