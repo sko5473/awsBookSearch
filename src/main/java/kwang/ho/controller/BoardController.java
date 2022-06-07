@@ -1,6 +1,7 @@
 package kwang.ho.controller;
 
 import kwang.ho.board.BoardDto;
+import kwang.ho.board.CommentDto;
 import kwang.ho.board.PagingVO;
 import kwang.ho.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 public class BoardController {
@@ -90,11 +93,30 @@ public class BoardController {
         return mv;
     }
 
-    // 게시판 답글 전송
+    // 게시판 답글 저장
     @RequestMapping("/boardReply.do")
     public String boardReply(BoardDto board) throws Exception {
         boardService.boardReply(board);
 
         return "redirect:/boardList.do";
+    }
+
+    // 게시판 댓글 저장
+    @RequestMapping("/boardComment.do")
+    public String boardComment(@RequestParam("cid") int cid, @RequestParam("content") String content, CommentDto commentDto) throws Exception {
+        commentDto.setContent(content);
+        commentDto.setCid(cid);
+        boardService.insertBoardComment(commentDto);
+
+        return "redirect:/boardDetail.do?bid="+Integer.toString(cid);
+    }
+
+    // 게시판 댓글 목록 호출
+    @GetMapping("/getCommentList")
+    @ResponseBody
+    private List<CommentDto> getCommentList(@RequestParam("cid") int cid) throws Exception{
+        CommentDto commentDto = new CommentDto();
+        commentDto.setCid(cid);
+        return boardService.getCommentList(commentDto);
     }
 }

@@ -145,4 +145,18 @@
 		where bid=#{bid}
 	</select>
 
+	<!-- 게시판 댓글 저장 -->
+	<insert id="insertBoardComment" parameterType="kwang.ho.board.CommentDto">
+		INSERT INTO T_BOARD_COMMENT
+		(seq, cid, content, writer,CREATE_DATE)
+		VALUES
+		(comment_seq.nextval, #{cid}, #{content}, 'Lee', sysdate)
+	</insert>
+
+	<!-- 게시판 댓글 목록 조회 -->
+	<select id="getCommentList" resultType="kwang.ho.board.CommentDto">
+		select *
+		from t_board_comment
+		where cid=#{cid}
+	</select>
 </mapper>

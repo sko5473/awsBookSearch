@@ -1,6 +1,7 @@
 package kwang.ho.mapper;
 
 import kwang.ho.board.BoardDto;
+import kwang.ho.board.CommentDto;
 import kwang.ho.board.PagingVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -36,7 +37,7 @@ public interface BoardMapper {
         // 게시판 답글 쓰기 페이지 호출
         BoardDto selectBoardReplyWrite(BoardDto board) throws Exception;
 
-        // 게시판 답글 등록
+        // 게시판 답글 저장
         int boardReply(BoardDto boardDto) throws Exception;
 
         // 게시판 답글 순서 수정
@@ -44,5 +45,11 @@ public interface BoardMapper {
 
         // 부모 reply_Level, reply_Step, bid_Parent 조회
         BoardDto selectParentBoard(BoardDto boardDto) throws Exception;
+
+        // 게시판 댓글 저장
+        void insertBoardComment(CommentDto commentDto) throws Exception;
+        
+        // 게시판 댓글 목록 호출
+        List<CommentDto> getCommentList(CommentDto commentDto) throws Exception;
 
 }

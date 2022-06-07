@@ -1,6 +1,7 @@
 package kwang.ho.service;
 
 import kwang.ho.board.BoardDto;
+import kwang.ho.board.CommentDto;
 import kwang.ho.board.PagingVO;
 
 import java.util.List;
@@ -31,7 +32,13 @@ public interface BoardService {
     // 게시판 답글 쓰기 페이지 이동
     BoardDto selectBoardReplyWrite(BoardDto board) throws Exception;
 
-    // 게시판 답글 전송
+    // 게시판 답글 저장
     int boardReply(BoardDto boardDto) throws Exception;
+
+    //게시판 댓글 저장
+    void insertBoardComment(CommentDto commentDto) throws Exception;
+
+    // 게시판 댓글 목록 호출
+    List<CommentDto> getCommentList(CommentDto commentDto) throws Exception;
 
 }

@@ -49,21 +49,21 @@
 
 <div class="container">
 
-<div class="table table-striped">
-    <div class="fw-light fs-3 text-center " style="float:none; margin:0 auto; height:80px">공지사항 수정</div>
+<div class="table table-striped" style="width:1200px; margin:0 auto;">
+    <div class="fw-light fs-3 text-center" style="float:none; margin:0 auto; height:80px;">공지사항 수정</div>
 
     <form action="/boardModify.do" id="frm" name="frm" method="post">
         <input type="hidden" id="bid" name="bid" th:value="${board.bid}">
         <button type="submit" class="btn btn-success"  id="edit" style="float: right;">수정</button>
         <div style="height:50px"></div>
-        <table class="table table-striped">
+        <table class="table table-striped" style="width:1200px; margin:0 auto;">
             <tr>
                 <td class="text-center h5">제목</td>
                 <td><input type="text" id="title" name="title" class="col-11" th:value="${board.title}" /></td>
             </tr>
             <tr>
                 <td colspan="2">
-                        <textarea id="contents" name="contents" rows="20" cols="170"  th:text="${board.contents}"
+                        <textarea id="contents" name="contents" rows="20" cols="156"  th:text="${board.contents}"
                                   style="resize: none;"></textarea>
                 </td>
             </tr>
