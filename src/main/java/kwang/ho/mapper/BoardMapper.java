@@ -46,10 +46,4 @@ public interface BoardMapper {
         // 부모 reply_Level, reply_Step, bid_Parent 조회
         BoardDto selectParentBoard(BoardDto boardDto) throws Exception;
 
-        // 게시판 댓글 저장
-        void insertBoardComment(CommentDto commentDto) throws Exception;
-        
-        // 게시판 댓글 목록 호출
-        List<CommentDto> getCommentList(CommentDto commentDto) throws Exception;
-
 }

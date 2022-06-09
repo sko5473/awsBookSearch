@@ -35,10 +35,5 @@ public interface BoardService {
     // 게시판 답글 저장
     int boardReply(BoardDto boardDto) throws Exception;
 
-    //게시판 댓글 저장
-    void insertBoardComment(CommentDto commentDto) throws Exception;
-
-    // 게시판 댓글 목록 호출
-    List<CommentDto> getCommentList(CommentDto commentDto) throws Exception;
 
 }

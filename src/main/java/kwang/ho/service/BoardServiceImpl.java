@@ -78,16 +78,4 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.boardReply(boardDto);
     }
 
-    // 게시판 댓글 저장
-    @Override
-    public void insertBoardComment(CommentDto commentDto) throws Exception {
-        boardMapper.insertBoardComment(commentDto);
-    }
-
-    // 게시판 댓글 목록 호출
-    @Override
-    public List<CommentDto> getCommentList(CommentDto commentDto) throws Exception {
-
-        return boardMapper.getCommentList(commentDto);
-    }
 }
