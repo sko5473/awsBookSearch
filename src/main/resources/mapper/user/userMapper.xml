@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kwang.ho.mapper.user.UserMapper">
+
+    <insert id="saveUser" parameterType="kwang.ho.dto.user.UserDto">
+        INSERT INTO T_USER
+        (USER_NO, USER_ID, USER_PW, USER_NAME, USER_AUTH, CREATE_DATE, UPDATE_DATE)
+        VALUES(USER_SEQ.NEXTVAL,#{user_Id},#{user_Pw},#{user_Name},#{user_Auth},SYSDATE,SYSDATE)
+    </insert>
+
+</mapper>

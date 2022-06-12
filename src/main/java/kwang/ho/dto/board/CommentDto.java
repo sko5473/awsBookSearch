@@ -1,4 +1,4 @@
-package kwang.ho.board;
+package kwang.ho.dto.board;
 
 import lombok.Data;
 

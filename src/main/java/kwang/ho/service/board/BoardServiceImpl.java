@@ -1,9 +1,8 @@
-package kwang.ho.service;
+package kwang.ho.service.board;
 
-import kwang.ho.board.BoardDto;
-import kwang.ho.board.CommentDto;
-import kwang.ho.board.PagingVO;
-import kwang.ho.mapper.BoardMapper;
+import kwang.ho.dto.board.BoardDto;
+import kwang.ho.dto.board.PagingVO;
+import kwang.ho.mapper.board.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

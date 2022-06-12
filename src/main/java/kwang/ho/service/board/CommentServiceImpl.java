@@ -1,14 +1,10 @@
-package kwang.ho.service;
+package kwang.ho.service.board;
 
-import kwang.ho.board.CommentDto;
-import kwang.ho.mapper.CommentMapper;
-import org.apache.ibatis.jdbc.Null;
+import kwang.ho.dto.board.CommentDto;
+import kwang.ho.mapper.board.CommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
-import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
 
 @Service

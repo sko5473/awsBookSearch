@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>도서검색시스템</title>
+</head>
+<style>
+.navbar-expand-lg {
+  position: sticky;
+  top: 0;
+  z-index: 1071;
+  min-height: 4rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,.05), inset 0 -1px 0 rgba(0,0,0,.1);
+}
+.bd-sidebar {
+  position: sticky;
+  top: 4rem;
+  z-index: 800;
+  height: calc(100vh - 4rem);
+  background: #eee;
+  border-right: 1px solid rgba(0,0,0,.1);
+  overflow-y: auto;
+}
+.bd-sidebar .nav {
+  display: block;
+  padding-top:30px;
+}
+.bd-sidebar .nav>li {
+ padding:5px 0;
+ font-size:20px;
+}
+.bd-sidebar .nav>li>a {
+  display: block;
+  padding: .25rem 1.5rem;
+  font-size: 90%;
+  cursor:pointer;
+}
+.container-fluid {
+width:25%;
+height:100%;
+position:sticky;
+overflow: auto;
+list-style-type: none;
+padding: 0;
+margin:  0;
+}
+
+</style>
+<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+<!-- header-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/boardList.do">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<!-- header-->
+<body>
+<!-- sidebar -->
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-2 bd-sidebar" >
+            <ul class="nav">
+                <li><a th:onclick="location.href='/boardList.do'">공지사항</a></li>
+                <li><a>책 중고장터</a></li>
+                <li><a>책 구매요청</a></li>
+            </ul>
+            <br>
+        </div>
+        <main class="col-9 py-md-3 pl-md-5 bd-content" role="main">
+            <h3>Main 1</h3>
+            <h3>Main 2</h3>
+        </main>
+    </div>
+</div>
+<!-- sidebar -->
+
+</body>
+<!-- footer-->
+<div style = "text-align:center;" class="container-fluid navbar-fixed-bottom">
+    <div style="font-size:.6rem;">
+        <span>공지사항</span> |
+        <span>문의사항</span> |
+        <span>서비스소개</span>
+    </div>
+    <div style="margin-top:1rem;">
+        <h6 style="font-family: 'Lobster', cursive;">Hyunterest</h6>
+    </div>
+
+</div>
+<!-- footer-->
+
+</html>

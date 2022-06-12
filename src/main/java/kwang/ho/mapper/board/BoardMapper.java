@@ -1,8 +1,7 @@
-package kwang.ho.mapper;
+package kwang.ho.mapper.board;
 
-import kwang.ho.board.BoardDto;
-import kwang.ho.board.CommentDto;
-import kwang.ho.board.PagingVO;
+import kwang.ho.dto.board.BoardDto;
+import kwang.ho.dto.board.PagingVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

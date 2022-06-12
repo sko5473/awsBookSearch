@@ -1,10 +1,9 @@
-package kwang.ho.controller;
+package kwang.ho.controller.board;
 
-import kwang.ho.board.CommentDto;
-import kwang.ho.service.CommentService;
+import kwang.ho.dto.board.CommentDto;
+import kwang.ho.service.board.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

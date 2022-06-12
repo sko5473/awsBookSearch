@@ -97,6 +97,25 @@
         <div class="container" style="width:1200px;">
             <div class="commentList"></div>
         </div>
+
+        <div style="text-align: center; margin: 20px 0px;" id="div_cmt_more">
+            <!-- 더보기 글자 hover 띄우기 -->
+            <span class="cmt_more_guide" id="cmt_more_guide" style="display: none; position: absolute;"></span>
+            <a href='javascript:void(0);' id='btn_cmt_more' style='position: relative;'>
+                <button th:text="더보기" id="imgMore" style="cursor:pointer; width: 100px;" />
+            </a>
+        </div>
+
+        <!-- 더보기 눌렀을때 추가 되는 댓글 영역 -->
+        <div class="board_cmt_list" id="cmtMore" style="display:none;"></div>
+        <div style="text-align: center; display:none; margin: 20px 0px;" id="div_cmt_back">
+            <span class="cmt_back_guide" id="cmt_back_guide" style="display: none; position: absolute;"></span>
+            <a href='javascript:void(0);' id='btn_cmt_back' style='position: relative;'>
+                <button th:text="더보기" id="imgBack" style="cursor:pointer; width: 100px;" />
+            </a>
+        </div>
+
+
         <!-- 댓글 종료 -->
 </div>
 
@@ -206,6 +225,8 @@
       var cid = $(this).attr('th:text');
       commentUpdateProc(cid);
     });
+
+
 </script>
 
 </body>

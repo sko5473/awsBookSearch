@@ -1,8 +1,7 @@
-package kwang.ho.mapper;
+package kwang.ho.mapper.board;
 
-import kwang.ho.board.CommentDto;
+import kwang.ho.dto.board.CommentDto;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

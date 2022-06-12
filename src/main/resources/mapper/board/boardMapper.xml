@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kwang.ho.mapper.BoardMapper">
+<mapper namespace="kwang.ho.mapper.board.BoardMapper">
 
     <!-- 게시판 목록 조회 -->
-    <select id="selectBoardListWithPaging" parameterType="kwang.ho.board.PagingVO" resultType="kwang.ho.board.BoardDto">
+    <select id="selectBoardListWithPaging" parameterType="kwang.ho.dto.board.PagingVO" resultType="kwang.ho.dto.board.BoardDto">
 		<![CDATA[
 		SELECT rn, bid, title, creator_Id, hit_Cnt, created_Datetime,reply_Level
         FROM (
@@ -16,7 +16,7 @@
     </select>
 
 	<!-- 게시판 상세보기 -->
-	<select id="selectBoardDetail" parameterType="int" resultType="kwang.ho.board.BoardDto" >
+	<select id="selectBoardDetail" parameterType="int" resultType="kwang.ho.dto.board.BoardDto" >
 		<![CDATA[
 			SELECT bid, title, contents, hit_Cnt, TO_CHAR(created_Datetime, 'YYYY-MM-DD HH24:MI:SS') AS created_Datetime, creator_id
 			FROM t_board
@@ -25,7 +25,7 @@
 	</select>
 
 	<!-- 게시판 등록 -->
-	<insert id="insertBoard" parameterType="kwang.ho.board.BoardDto">
+	<insert id="insertBoard" parameterType="kwang.ho.dto.board.BoardDto">
 		<selectKey resultType="int" keyProperty="bid_Parent" order="BEFORE">
 			SELECT NVL(MAX(bid), 0) + 1
 			FROM T_BOARD
@@ -59,7 +59,7 @@
 	</delete>
 
 	<!-- 게시판 수정페이지 호출 -->
-	<select id="selectOpenBoardModify" parameterType="int" resultType="kwang.ho.board.BoardDto" >
+	<select id="selectOpenBoardModify" parameterType="int" resultType="kwang.ho.dto.board.BoardDto" >
 		<![CDATA[
 			SELECT bid, title, contents, hit_cnt, TO_CHAR(created_datetime, 'YYYY-MM-DD HH24:MI:SS') AS createdDatetime, creator_id
 			FROM t_board
@@ -68,7 +68,7 @@
 	</select>
 
 	<!-- 게시판 수정 -->
-	<update id="boardModify" parameterType="kwang.ho.board.BoardDto" >
+	<update id="boardModify" parameterType="kwang.ho.dto.board.BoardDto" >
 		<![CDATA[
 			UPDATE
 				T_BOARD
@@ -98,7 +98,7 @@
 	</update>
 
 	<!-- 게시판 답글 등록 페이지 호출 -->
-	<select id="selectBoardReplyWrite" parameterType="int" resultType="kwang.ho.board.BoardDto" >
+	<select id="selectBoardReplyWrite" parameterType="int" resultType="kwang.ho.dto.board.BoardDto" >
 		<![CDATA[
 			SELECT bid, title, contents, hit_cnt, TO_CHAR(created_datetime, 'YYYY-MM-DD HH24:MI:SS') AS createdDatetime, creator_id
 			FROM t_board
@@ -107,7 +107,7 @@
 	</select>
 
 	<!-- 게시판 답글 등록-->
-	<insert id="boardReply" parameterType="kwang.ho.board.BoardDto">
+	<insert id="boardReply" parameterType="kwang.ho.dto.board.BoardDto">
 
 		<![CDATA[
 			INSERT INTO t_board
@@ -131,7 +131,7 @@
 	</insert>
 
 	<!-- 게시판 답글 순서 -->
-	<update id="updateBoardReplyStep" parameterType="kwang.ho.board.BoardDto">
+	<update id="updateBoardReplyStep" parameterType="kwang.ho.dto.board.BoardDto">
 		UPDATE T_BOARD
 		SET reply_Step = reply_Step + 1
 		WHERE bid_Parent = #{bid_Parent}
@@ -139,7 +139,7 @@
 	</update>
 
 	<!-- 게시판 답글관련 부모글 조회 -->
-	<select id="selectParentBoard" parameterType="int" resultType="kwang.ho.board.BoardDto">
+	<select id="selectParentBoard" parameterType="int" resultType="kwang.ho.dto.board.BoardDto">
 		select bid_Parent, reply_Level, reply_Step
 		from t_board
 		where bid=#{bid}

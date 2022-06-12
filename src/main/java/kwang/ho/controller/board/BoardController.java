@@ -1,18 +1,13 @@
-package kwang.ho.controller;
+package kwang.ho.controller.board;
 
-import kwang.ho.board.BoardDto;
-import kwang.ho.board.CommentDto;
-import kwang.ho.board.PagingVO;
-import kwang.ho.service.BoardService;
+import kwang.ho.dto.board.BoardDto;
+import kwang.ho.dto.board.PagingVO;
+import kwang.ho.service.board.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @Controller
 public class BoardController {
@@ -51,6 +46,7 @@ public class BoardController {
     // 게시판 작성
     @RequestMapping("/boardInsert.do")
     public String insertBoard(@ModelAttribute BoardDto board) throws Exception {
+
         boardService.insertBoard(board);
         return "redirect:/boardList.do";
     }

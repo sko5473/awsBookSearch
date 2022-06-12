@@ -1,7 +1,6 @@
-package kwang.ho.service;
+package kwang.ho.service.board;
 
-import kwang.ho.board.CommentDto;
-import org.springframework.ui.Model;
+import kwang.ho.dto.board.CommentDto;
 
 import java.util.List;
 
