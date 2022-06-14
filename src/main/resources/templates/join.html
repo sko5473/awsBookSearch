@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<form action="/join.do" method="post" >
+<form th:action="@{/join}" method="post" >
     <div class="container">
         <h1>회원가입</h1>
         <div class="form-group">
@@ -21,7 +21,8 @@
             <label for="inputPassword4">password</label>
             <input th:type="password" class="form-control" id="inputPassword4" th:name="user_Pw" placeholder="사용자 비밀번호">
         </div>
-        <button th:type="submit" class="btn btn-primary">가입 완료</button>
+        <div style="height:10px;"></div>
+        <button th:type="submit" class="btn btn-primary">등록</button>
     </div>
 </form>
 </body>

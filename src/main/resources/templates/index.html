@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>도서검색시스템</title>
@@ -81,14 +81,25 @@ margin:  0;
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li>
             </ul>
+
+            ID : <span sec:authentication="principal.user_Id" style="font-weight:bold;"></span>
+            <span>님 환영합니다.&nbsp;&nbsp;&nbsp;</span>
+            <form id="logout" action="/logout" method="POST">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="submit" value="로그아웃"/>
+            </form>
+            <span>&nbsp;&nbsp;&nbsp;</span>
+
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
     </div>
+
 </nav>
 <!-- header-->
+
 <body>
 <!-- sidebar -->
 <div class="container-fluid">
