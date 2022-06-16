@@ -82,10 +82,11 @@ margin:  0;
                 </li>
             </ul>
 
+            <button onclick="location.href='/manage'" class="btn btn-success" sec:authorize="hasRole('ADMIN')">관리자페이지</button>
+
             ID : <span sec:authentication="principal.user_Id" style="font-weight:bold;"></span>
             <span>님 환영합니다.&nbsp;&nbsp;&nbsp;</span>
             <form id="logout" action="/logout" method="POST">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <input type="submit" value="로그아웃"/>
             </form>
             <span>&nbsp;&nbsp;&nbsp;</span>
@@ -124,12 +125,12 @@ margin:  0;
 <!-- footer-->
 <div style = "text-align:center;" class="container-fluid navbar-fixed-bottom">
     <div style="font-size:.6rem;">
-        <span>공지사항</span> |
-        <span>문의사항</span> |
-        <span>서비스소개</span>
+        <span>사업자번호</span> |
+        <span>사업주</span> |
+        <span>문의전화 : 1234-1234</span>
     </div>
     <div style="margin-top:1rem;">
-        <h6 style="font-family: 'Lobster', cursive;">Hyunterest</h6>
+        <h6 style="font-family: 'Lobster', cursive;">KHBookStore</h6>
     </div>
 
 </div>

@@ -44,5 +44,4 @@
         ORDER BY CREATE_DATE DESC
     </select>
 
-
 </mapper>

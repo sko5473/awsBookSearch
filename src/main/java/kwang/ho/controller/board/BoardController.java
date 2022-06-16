@@ -2,12 +2,16 @@ package kwang.ho.controller.board;
 
 import kwang.ho.dto.board.BoardDto;
 import kwang.ho.dto.board.PagingVO;
+import kwang.ho.dto.user.UserDto;
 import kwang.ho.service.board.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.security.Principal;
 
 @Controller
 public class BoardController {
@@ -45,8 +49,11 @@ public class BoardController {
 
     // 게시판 작성
     @RequestMapping("/boardInsert.do")
-    public String insertBoard(@ModelAttribute BoardDto board) throws Exception {
+    public String insertBoard(BoardDto board, Principal principal) throws Exception {
 
+        String id = principal.getName();
+        board.setCreator_Id(id);
+        board.setUpdater_Id(id);
         boardService.insertBoard(board);
         return "redirect:/boardList.do";
     }
@@ -70,16 +77,28 @@ public class BoardController {
     }
 
     // 게시판 수정
+    @PreAuthorize("isAuthenticated() and (( #user.name == principal.name ) or hasRole('ROLE_ADMIN'))")
     @RequestMapping("/boardModify.do")
-    public String boardModify(BoardDto board) throws Exception {
-        boardService.boardModify(board);
+    public String boardModify(BoardDto board, Principal principal) throws Exception {
+
+
+            String updater_Id = principal.getName();
+            board.setUpdater_Id(updater_Id);
+            boardService.boardModify(board);
+
         return "redirect:/boardList.do";
     }
 
     // 게시판 삭제
     @RequestMapping("/boardDelete.do")
-    public String boardDelete(@RequestParam int bid) throws Exception {
-        boardService.boardDelete(bid);
+    public String boardDelete(@RequestParam int bid, Principal principal, BoardDto board) throws Exception {
+        System.out.println(board.getCreator_Id());
+        System.out.println(principal.getName());
+        if(principal.getName().equals(board.getCreator_Id())) {
+            boardService.boardDelete(bid);
+        } else {
+            System.out.println("Not equal");
+        }
         return "redirect:/boardList.do";
     }
 
@@ -93,7 +112,11 @@ public class BoardController {
 
     // 게시판 답글 저장
     @RequestMapping("/boardReply.do")
-    public String boardReply(BoardDto board) throws Exception {
+    public String boardReply(BoardDto board, Principal principal) throws Exception {
+
+        String id = principal.getName();
+        board.setCreator_Id(id);
+        board.setUpdater_Id(id);
         boardService.boardReply(board);
 
         return "redirect:/boardList.do";

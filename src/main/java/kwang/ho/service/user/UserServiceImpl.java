@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         userDto.setUser_Pw(passwordEncoder.encode(userDto.getUser_Pw()));
-        userDto.setUser_Auth("USER");
+        userDto.setUser_Auth("ROLE_USER");
 
         userMapper.saveUser(userDto);
     }
@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (userDto == null){
             throw new UsernameNotFoundException(username);
         }
-
         return userDto;
     }
 }

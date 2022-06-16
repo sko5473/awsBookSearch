@@ -43,9 +43,9 @@
 				#{title},
 				#{contents},
 				sysdate,
-				'kim',
+				#{creator_Id},
 				sysdate,
-				'kim'
+				#{updater_Id}
 			)
 		]]>
 	</insert>
@@ -61,7 +61,7 @@
 	<!-- 게시판 수정페이지 호출 -->
 	<select id="selectOpenBoardModify" parameterType="int" resultType="kwang.ho.dto.board.BoardDto" >
 		<![CDATA[
-			SELECT bid, title, contents, hit_cnt, TO_CHAR(created_datetime, 'YYYY-MM-DD HH24:MI:SS') AS createdDatetime, creator_id
+			SELECT bid, title, contents, hit_cnt, TO_CHAR(created_datetime, 'YYYY-MM-DD HH24:MI:SS') AS createdDatetime, creator_Id
 			FROM t_board
 			WHERE bid=#{bid} AND deleted_YN='N'
 		 ]]>
@@ -76,7 +76,7 @@
 				TITLE=#{title},
 				CONTENTS=#{contents},
 				UPDATED_DATETIME=SYSDATE,
-				UPDATER_ID='KIM'
+				UPDATER_ID=#{updater_Id}
 			WHERE
 				bid = #{bid}
 		]]>
@@ -120,9 +120,9 @@
 				'[RE]'||#{title},
 				#{contents},
 				sysdate,
-				'kim',
+				#{creator_Id},
 				sysdate,
-				'kim',
+				#{updater_Id},
 				#{bid_Parent},
 				#{reply_Level},
 				#{reply_Step}

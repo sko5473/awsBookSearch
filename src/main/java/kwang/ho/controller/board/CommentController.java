@@ -3,6 +3,8 @@ package kwang.ho.controller.board;
 import kwang.ho.dto.board.CommentDto;
 import kwang.ho.service.board.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +28,13 @@ public class CommentController {
     // 게시판 댓글 작성
     @RequestMapping("/insert")
     @ResponseBody
-    private int CommentServiceInsert(@RequestParam int bid, @RequestParam String content) throws Exception {
+    private int CommentServiceInsert(@RequestParam int bid, @RequestParam String content, Authentication authentication) throws Exception {
 
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         CommentDto commentDto = new CommentDto();
         commentDto.setBid(bid);
         commentDto.setContent(content);
-        commentDto.setWriter("tester");
+        commentDto.setWriter(userDetails.getUsername());
 
         return commentService.commentInsertService(commentDto);
     }
