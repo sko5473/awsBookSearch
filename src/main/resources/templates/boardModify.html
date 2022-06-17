@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
@@ -51,10 +51,10 @@
 
 <div class="table table-striped" style="width:1200px; margin:0 auto;">
     <div class="fw-light fs-3 text-center" style="float:none; margin:0 auto; height:80px;">공지사항 수정</div>
-
     <form action="/boardModify.do" id="frm" name="frm" method="post">
         <input type="hidden" id="bid" name="bid" th:value="${board.bid}">
         <input type="hidden" id="creator_Id" name="creator_Id" th:value="${board.creator_Id}">
+
         <button type="submit" class="btn btn-success"  id="edit" style="float: right;">수정</button>
         <div style="height:50px"></div>
         <table class="table table-striped" style="width:1200px; margin:0 auto;">

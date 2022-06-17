@@ -6,12 +6,19 @@ import kwang.ho.dto.user.UserDto;
 import kwang.ho.service.board.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.Collection;
+import java.util.Map;
 
 @Controller
 public class BoardController {
@@ -77,28 +84,23 @@ public class BoardController {
     }
 
     // 게시판 수정
-    @PreAuthorize("isAuthenticated() and (( #user.name == principal.name ) or hasRole('ROLE_ADMIN'))")
+    @PreAuthorize("hasRole('ADMIN') or (#board.creator_Id==principal.username)")
     @RequestMapping("/boardModify.do")
     public String boardModify(BoardDto board, Principal principal) throws Exception {
 
-
-            String updater_Id = principal.getName();
-            board.setUpdater_Id(updater_Id);
-            boardService.boardModify(board);
+        String updater_Id = principal.getName();
+        board.setUpdater_Id(updater_Id);
+        boardService.boardModify(board);
 
         return "redirect:/boardList.do";
     }
 
     // 게시판 삭제
+    @PreAuthorize("hasRole('ADMIN') or (#creator_Id==principal.username)")
     @RequestMapping("/boardDelete.do")
-    public String boardDelete(@RequestParam int bid, Principal principal, BoardDto board) throws Exception {
-        System.out.println(board.getCreator_Id());
-        System.out.println(principal.getName());
-        if(principal.getName().equals(board.getCreator_Id())) {
-            boardService.boardDelete(bid);
-        } else {
-            System.out.println("Not equal");
-        }
+    public String boardDelete(@RequestParam int bid, @RequestParam("creator_Id") String creator_Id, Principal principal) throws Exception {
+
+        boardService.boardDelete(bid);
         return "redirect:/boardList.do";
     }
 
