@@ -3,6 +3,7 @@ package kwang.ho.service.board;
 import kwang.ho.dto.board.BoardDto;
 import kwang.ho.dto.board.PagingVO;
 import kwang.ho.mapper.board.BoardMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService {
 
     @Autowired
+    @Mapper
     private BoardMapper boardMapper;
 
     // 게시글 목록

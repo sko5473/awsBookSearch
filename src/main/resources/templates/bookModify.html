@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
     <title>도서검색시스템</title>
-    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"></link>
 </head>
-
+<body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Navbar</a>
@@ -47,29 +47,46 @@
     </div>
 </nav>
 
-<body>
 <div class="container">
-    <div class="table table-striped">
-        <div class="fw-light fs-3 text-center " style="float:none; margin:0 auto; height:80px">공지사항</div>
 
-        <form action="/boardInsert.do" id="frm" name="frm" method="post">
+    <div class="table table-striped" style="width:1200px; margin:0 auto;">
+        <div class="fw-light fs-3 text-center" style="float:none; margin:0 auto; height:80px;">공지사항 수정</div>
+        <form action="/bookModify.do" id="bookModify" name="bookModify" method="post">
+            <input type="hidden" id="bid" th:name="bid" th:value="${bookDto.bid}">
+            <input type="hidden" id="creator_Id" th:name="creator_Id" th:value="${bookDto.creator_Id}">
 
-            <button class="btn btn-success" th:type="submit" id="submit" style="float: right;">저장</button>
+            <button type="submit" class="btn btn-success"  id="edit" style="float: right;">수정</button>
             <div style="height:50px"></div>
-            <table class="table table-striped">
+            <table class="table table-striped" style="width:1200px; margin:0 auto;">
                 <tr>
-                    <td class="text-center h5">제목</td>
-                    <td><input type="text" id="title" name="title" class="col-11" placeholder="제목을 입력하세요."></td>
+                    <td class="text-center h5">발간일</td>
+                    <td><input type="text" id="publication_Date" th:name="publication_Date" class="col-11" th:value="${bookDto.publication_Date}" /></td>
                 </tr>
                 <tr>
+                    <td class="text-center h5">위치</td>
+                    <td><input type="text" id="location" th:name="location" class="col-11" th:value="${bookDto.location}" /></td>
+                </tr>
+                <tr>
+                    <td class="text-center h5">저자</td>
+                    <td><input type="text" id="author" th:name="author" class="col-11" th:value="${bookDto.author}" /></td>
+                </tr>
+                <tr>
+                    <td class="text-center h5">도서명</td>
+                    <td><input type="text" id="book_Name" th:name="book_Name" class="col-11" th:value="${bookDto.book_Name}" /></td>
+                </tr>
+                <tr>
+                    <td class="text-center h5">줄거리</td>
                     <td colspan="2">
-                        <textarea id="contents" name="contents" rows="20" cols="170" placeholder="내용을 입력하세요."
-                                  style="resize: none;"></textarea>
+                        <textarea id="story" th:name="story" rows="20" cols="156"  th:text="${bookDto.story}" style="resize: none;"></textarea>
                     </td>
                 </tr>
             </table>
+
         </form>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+</script>
 </body>
 </html>

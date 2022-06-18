@@ -91,10 +91,6 @@ margin:  0;
             </form>
             <span>&nbsp;&nbsp;&nbsp;</span>
 
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
         </div>
     </div>
 
@@ -110,12 +106,15 @@ margin:  0;
                 <li><a th:onclick="location.href='/boardList.do'">공지사항</a></li>
                 <li><a>책 중고장터</a></li>
                 <li><a>책 구매요청</a></li>
+                <li><a th:onclick="location.href='/bookList.do'">도서</a></li>
             </ul>
             <br>
         </div>
         <main class="col-9 py-md-3 pl-md-5 bd-content" role="main">
-            <h3>Main 1</h3>
-            <h3>Main 2</h3>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="도서를 검색하세요." aria-label="Search" style="width:300px;">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
         </main>
     </div>
 </div>

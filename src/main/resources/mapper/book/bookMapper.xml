@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kwang.ho.mapper.book.BookMapper">
+
+    <!-- 도서게시판 목록 조회 -->
+    <select id="selectBookListWithPaging" parameterType="kwang.ho.dto.board.PagingVO" resultType="kwang.ho.dto.book.BookDto">
+        <![CDATA[
+		SELECT rn, bid, book_Name, author, publication_Date,location
+        FROM (
+       		SELECT
+        	row_number() over(order by create_Date desc) as rn,bid, book_Name, author, publication_Date,location
+        	FROM book
+        )
+        where rn between #{start} and #{end}
+		]]>
+    </select>
+
+    <!-- 도서게시판 상세보기 -->
+    <select id="selectBookDetail" parameterType="int" resultType="kwang.ho.dto.book.BookDto" >
+        <![CDATA[
+			SELECT bid, book_Name, author, story, publication_Date,location, TO_CHAR(create_Date, 'YYYY-MM-DD HH24:MI:SS') AS create_Date, creator_Id
+			FROM book
+			WHERE bid=#{bid} AND deleted_YN='N'
+		 ]]>
+    </select>
+
+    <!-- 도서게시판 등록 -->
+    <insert id="insertBook" parameterType="kwang.ho.dto.book.BookDto">
+        <![CDATA[
+			INSERT INTO book
+			(
+				bid, book_Name, author, story, publication_Date,location,create_Date, creator_Id
+			)
+			VALUES
+			(
+				book_seq.nextval,
+				#{book_Name},
+				#{author},
+				#{story},
+				#{publication_Date},
+				#{location},
+				sysdate,
+				#{creator_Id}
+			)
+		]]>
+    </insert>
+
+    <!-- 게시판 삭제 -->
+    <delete id="bookDelete" parameterType="int">
+        <![CDATA[
+			DELETE FROM book
+			WHERE bid=#{bid}
+		 ]]>
+    </delete>
+
+    <!-- 도서게시판 수정페이지 호출 -->
+    <select id="selectOpenBookModify" parameterType="int" resultType="kwang.ho.dto.book.BookDto" >
+        <![CDATA[
+			SELECT bid, book_Name, author, story, publication_Date,location, TO_CHAR(create_Date, 'YYYY-MM-DD HH24:MI:SS') AS create_Date, creator_Id
+			FROM book
+			WHERE bid=#{bid} AND deleted_YN='N'
+		 ]]>
+    </select>
+
+    <!-- 도서게시판 수정 -->
+    <update id="bookModify" parameterType="kwang.ho.dto.book.BookDto" >
+        <![CDATA[
+			UPDATE
+				book
+			SET
+				book_Name=#{book_Name},
+				author=#{author},
+				story=#{story},
+				publication_Date=#{publication_Date},
+				location=#{location}
+			WHERE
+				bid = #{bid}
+		]]>
+    </update>
+
+    <!-- 도서게시판 갯수 -->
+    <select id="selectBookTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM book
+    </select>
+</mapper>

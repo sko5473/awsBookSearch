@@ -50,21 +50,32 @@
 <body>
 <div class="container">
     <div class="table table-striped">
-        <div class="fw-light fs-3 text-center " style="float:none; margin:0 auto; height:80px">공지사항</div>
+        <div class="fw-light fs-3 text-center " style="float:none; margin:0 auto; height:80px">도서</div>
 
-        <form action="/boardInsert.do" id="frm" name="frm" method="post">
+        <form action="/bookInsert.do" id="bookInsert" name="bookInsert" method="post">
 
             <button class="btn btn-success" th:type="submit" id="submit" style="float: right;">저장</button>
             <div style="height:50px"></div>
             <table class="table table-striped">
                 <tr>
-                    <td class="text-center h5">제목</td>
-                    <td><input type="text" id="title" name="title" class="col-11" placeholder="제목을 입력하세요."></td>
+                    <td class="text-center h5">도서명</td>
+                    <td><input type="text" id="book_Name" th:name="book_Name" class="col-11" placeholder="도서명을 입력하세요."></td>
+                </tr>
+                <tr>
+                    <td class="text-center h5">저자</td>
+                    <td><input type="text" id="author" th:name="author" class="col-11" placeholder="저자를 입력하세요."></td>
+                </tr>
+                <tr>
+                    <td class="text-center h5">발간일</td>
+                    <td><input type="text" id="publication_Date" th:name="publication_Date" class="col-11" placeholder="발간일을 입력하세요."></td>
+                </tr>
+                <tr>
+                    <td class="text-center h5">위치</td>
+                    <td><input type="text" id="location" th:name="location" class="col-11" placeholder="위치를 입력하세요."></td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <textarea id="contents" name="contents" rows="20" cols="170" placeholder="내용을 입력하세요."
-                                  style="resize: none;"></textarea>
+                        <textarea id="story" name="story" rows="20" cols="170" placeholder="줄거리를 입력하세요." style="resize: none;"></textarea>
                     </td>
                 </tr>
             </table>
