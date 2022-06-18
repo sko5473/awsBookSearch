@@ -4,6 +4,8 @@ import kwang.ho.dto.board.PagingVO;
 import kwang.ho.dto.book.BookDto;
 import kwang.ho.service.book.BookService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +24,8 @@ public class BookController {
     @RequestMapping("/bookList.do")
     public String selectBookListWithPaging(PagingVO pagingVO, Model model
             , @RequestParam(value="nowPage", required=false)String nowPage
-            , @RequestParam(value="cntPerPage", required=false)String cntPerPage, BookDto bookDto) throws Exception {
+            , @RequestParam(value="cntPerPage", required=false)String cntPerPage
+            ) throws Exception {
 
         int total = bookService.selectBookTotalCount();
         if (nowPage == null && cntPerPage == null) {

@@ -116,7 +116,7 @@ ul li {
     <div style="display: block; text-align: center;">
         <ul class="pagination justify-content-center">
             <li th:if="${paging.startPage != 1} " class="page-item">
-                <a th:href="@{/boardList.do(nowPage=${paging.startPage - 1 },cntPerPage=${paging.cntPerPage})}" class="page-link">&lt;</a>
+                <a th:href="@{/bookList.do(nowPage=${paging.startPage - 1 },cntPerPage=${paging.cntPerPage})}" class="page-link">&lt;</a>
             </li>
 
             <li th:each="page : ${#numbers.sequence(paging.startPage,paging.endPage)}" class="page-item" th:classappend="${page == paging.nowPage} ? 'active'" >
@@ -130,7 +130,6 @@ ul li {
     </div>
 </div>
 </body>
-
 
 <script type="application/javascript">
 	function selChange() {

@@ -18,7 +18,7 @@ public class MainController {
     }
 
     @RequestMapping("/main")
-    public String index() throws Exception {
+    public String main() throws Exception {
 
         return "/index";
     }

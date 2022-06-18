@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kwang.ho.mapper.book.SearchMapper">
+
+    <!-- 도서게시판 목록 조회 -->
+    <select id="selectSearchListWithPaging" parameterType="kwang.ho.dto.board.PagingVO" resultType="kwang.ho.dto.book.BookDto">
+        <![CDATA[
+		SELECT rn, bid, book_Name, author, publication_Date,location,story
+        FROM (
+       		SELECT
+        	row_number() over(order by create_Date desc) as rn,bid, book_Name, author, publication_Date,location,story
+        	FROM book
+        ]]>
+        <if test="searchType =='author'"> WHERE author like '%'||#{keyword}||'%' </if>
+        <if test="searchType =='book_Name'"> WHERE book_Name like '%'||#{keyword}||'%' </if>
+        <if test="searchType == null or searchType == ''">1 = 1</if>
+        )
+        where rn between #{start} and #{end}
+    </select>
+
+    <!-- 도서게시판 상세보기 -->
+    <select id="selectSearchDetail" parameterType="int" resultType="kwang.ho.dto.book.BookDto" >
+        <![CDATA[
+			SELECT bid, book_Name, author, story, publication_Date,location, TO_CHAR(create_Date, 'YYYY-MM-DD HH24:MI:SS') AS create_Date, creator_Id
+			FROM book
+			WHERE bid=#{bid} AND deleted_YN='N'
+		 ]]>
+    </select>
+
+    <!-- 도서게시판 갯수 -->
+    <select id="selectSearchTotalCount" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*)
+        FROM book
+        ]]>
+        <if test="searchType =='author'"> WHERE author like '%'||#{keyword}||'%' </if>
+        <if test="searchType =='book_Name'"> WHERE book_Name like '%'||#{keyword}||'%' </if>
+        <if test="searchType == null or searchType == ''">1 = 1</if>
+    </select>
+
+ <!-- <sql id="searchList">
+        <choose>
+            &lt;!&ndash; 전체검색일 경우&ndash;&gt;
+            <when test="searchType == 'all'">
+                WHERE book_Name like '%'||#{keyword}||'%'
+                OR author like '%'||#{keyword}||'%'
+            </when>
+            &lt;!&ndash; 개별 검색일 경우&ndash;&gt;
+            <otherwise>
+                WHERE ${searchType} like '%'||#{keyword}||'%'
+            </otherwise>
+        </choose>
+    </sql>-->
+
+</mapper>

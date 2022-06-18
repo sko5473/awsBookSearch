@@ -110,17 +110,35 @@ margin:  0;
             </ul>
             <br>
         </div>
+<!-- sidebar -->
+
         <main class="col-9 py-md-3 pl-md-5 bd-content" role="main">
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="도서를 검색하세요." aria-label="Search" style="width:300px;">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            <!--search-->
+            <div class="form-inline">
+                <select class="form-control search-select" th:name="searchType" id="searchType" style="width:20%">
+                    <option th:value="author">저자</option>
+                    <option th:value="book_Name">도서명</option>
+                </select>
+                <input th:type="text" class="form-control search-input" th:name="keyword" id="keyword" style="width:70%">
+                <button th:type="button" class="btn btn-primary" th:name="btnSearch" id="btnSearch">검색</button>
+            </div>
+            <!--search-->
         </main>
     </div>
 </div>
-<!-- sidebar -->
+
 
 </body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="application/javascript">
+	$(document).on('click', '#btnSearch', function(e){
+        e.preventDefault();
+        var url = "/searchList.do";
+        url = url + "?searchType=" + $('#searchType').val();
+        url = url + "&keyword=" + $('#keyword').val();
+        window.open(url,"SearchWin","width=1400,height=1000");
+    });
+</script>
 <!-- footer-->
 <div style = "text-align:center;" class="container-fluid navbar-fixed-bottom">
     <div style="font-size:.6rem;">
