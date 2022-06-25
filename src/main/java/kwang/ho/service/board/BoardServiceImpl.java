@@ -13,7 +13,6 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService {
 
     @Autowired
-    @Mapper
     private BoardMapper boardMapper;
 
     // 게시글 목록

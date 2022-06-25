@@ -22,7 +22,7 @@ public class BoardController {
     @RequestMapping("/boardList.do")
     public String selectBoardListWithPaging(PagingVO pagingVO, Model model
             , @RequestParam(value="nowPage", required=false)String nowPage
-            , @RequestParam(value="cntPerPage", required=false)String cntPerPage, BoardDto boardDto) throws Exception {
+            , @RequestParam(value="cntPerPage", required=false)String cntPerPage) throws Exception {
 
         int total = boardService.selectBoardTotalCount();
         if (nowPage == null && cntPerPage == null) {
@@ -98,7 +98,7 @@ public class BoardController {
 
     // 게시판 답글쓰기 페이지 호출
     @RequestMapping("/boardReplyWrite.do")
-    public ModelAndView boardReplyWrite(@ModelAttribute BoardDto board) throws Exception {
+    public ModelAndView boardReplyWrite(BoardDto board) throws Exception {
         ModelAndView mv = new ModelAndView("/boardReplyWrite");
         mv.addObject("board", board);
         return mv;

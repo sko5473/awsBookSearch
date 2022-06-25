@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"></link>
+<head>
+    <meta charset="UTF-8">
+    <title>유저선택</title>
+</head>
+<style>
+    table{
+        margin : 0 auto;
+        margin-top : -200px;
+    }
+
+    td, tr{
+        text-align: center;
+    }
+
+    #checkedUserSaveBtn {
+        margin : auto;
+        display : block;
+        margin-left : 50px;
+    }
+</style>
+<body>
+
+<table class="table table-striped" style="width:400px;">
+    <colgroup>
+        <col width="50px;"/>
+        <col width="100px;"/>
+        <col width="100px;"/>
+    </colgroup>
+    <thead>
+        <tr>
+            <th scope="col">선택</th>
+            <th scope="col">아이디</th>
+            <th scope="col">이름</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="user : ${user}" id="userArray">
+            <td><input th:type="checkbox" th:name="userSelect" th:attr="data-id=${user.user_Auth}" th:value="${user.user_Id}" class="box"></td>
+            <td th:block th:text="${user.user_Id}"/>
+            <td  th:name="userName" th:text="${user.user_Name}" th:value="${user.user_Name}"/><br>
+        </tr>
+    </tbody>
+</table>
+<button th:type="button" id="checkedUserSaveBtn" class="btn btn-primary" th:name="checkedUserSaveBtn">저장</button>
+
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script language="javascript">
+// 관리자 권한을 가진 유저는 선택 못하도록 설정
+$(document).ready(function(){
+    document.querySelectorAll('input[type="checkbox"][name="userSelect"]').forEach(function(x,y){
+        if(x.dataset.id == 'ROLE_ADMIN') {
+            x.setAttribute('disabled','disabled');
+        }
+    });
+});
+
+// 체크된 유저에게 관리자 권한 부여
+$('#checkedUserSaveBtn').click(function(){
+    var checkArr = new Array();
+
+    $("input[type=checkbox][name=userSelect]:checked").each(function(){
+        checkArr.push($(this).val());
+    });
+
+    $.ajax({
+        url : '/manage/checkedUserUpdateAdminAuth',
+        type : 'post',
+        dataType : 'json',
+        contentType : "application/json",
+        data : JSON.stringify(checkArr),
+        success : function(result){
+            if(result == 1){
+               alert("저장 되었습니다");
+               opener.parent.location.reload();
+               window.close();
+            } else {
+            alert("삭제 실패");
+            }
+        }
+    });
+});
+</script>
+</html>

@@ -48,9 +48,15 @@
 </nav>
 
 <div class="container">
-
+    <colgroup>
+        <col width="15%"/>
+        <col width="45%"/>
+        <col widht="10%"/>
+        <col width="10%"/>
+        <col width="20%"/>
+    </colgroup>
     <div class="table table-striped" style="width:1200px; margin:0 auto;">
-        <div class="fw-light fs-3 text-center" style="float:none; margin:0 auto; height:80px;">공지사항 수정</div>
+        <div class="fw-light fs-3 text-center" style="float:none; margin:0 auto; height:80px;">도서정보 수정</div>
         <form action="/bookModify.do" id="bookModify" name="bookModify" method="post">
             <input type="hidden" id="bid" th:name="bid" th:value="${bookDto.bid}">
             <input type="hidden" id="creator_Id" th:name="creator_Id" th:value="${bookDto.creator_Id}">
@@ -58,26 +64,22 @@
             <button type="submit" class="btn btn-success"  id="edit" style="float: right;">수정</button>
             <div style="height:50px"></div>
             <table class="table table-striped" style="width:1200px; margin:0 auto;">
-                <tr>
-                    <td class="text-center h5">발간일</td>
+                <tr style="width:200px;">
+                    <th scope="row" class="table-secondary" >발간일</th>
                     <td><input type="text" id="publication_Date" th:name="publication_Date" class="col-11" th:value="${bookDto.publication_Date}" /></td>
-                </tr>
-                <tr>
-                    <td class="text-center h5">위치</td>
+                    <th scope="row" class="table-secondary">위치</th>
                     <td><input type="text" id="location" th:name="location" class="col-11" th:value="${bookDto.location}" /></td>
                 </tr>
                 <tr>
-                    <td class="text-center h5">저자</td>
+                    <th scope="row" class="table-secondary">저자</th>
                     <td><input type="text" id="author" th:name="author" class="col-11" th:value="${bookDto.author}" /></td>
-                </tr>
-                <tr>
-                    <td class="text-center h5">도서명</td>
+                    <th scope="row" class="table-secondary">도서명</th>
                     <td><input type="text" id="book_Name" th:name="book_Name" class="col-11" th:value="${bookDto.book_Name}" /></td>
                 </tr>
                 <tr>
-                    <td class="text-center h5">줄거리</td>
-                    <td colspan="2">
-                        <textarea id="story" th:name="story" rows="20" cols="156"  th:text="${bookDto.story}" style="resize: none;"></textarea>
+                    <th scope="row" class="table-secondary">줄거리</th>
+                    <td colspan="3">
+                        <textarea id="story" th:name="story" rows="20" cols="145"  th:text="${bookDto.story}" style="resize: none;"></textarea>
                     </td>
                 </tr>
             </table>

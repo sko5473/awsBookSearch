@@ -16,6 +16,7 @@ public class SearchController {
 
     private final SearchService searchService;
 
+    // 도서검색 목록보기
     @RequestMapping("/searchList.do")
     public String selectSearchListWithPaging(PagingVO pagingVO, Model model
             , @RequestParam(value="nowPage", required=false)String nowPage
@@ -40,7 +41,7 @@ public class SearchController {
         return "/searchList";
     }
 
-    // 게시판 상세보기
+    // 도서검색 상세보기
     @RequestMapping("/searchDetail.do")
     public ModelAndView searchDetail(@RequestParam int bid) throws Exception {
         ModelAndView mv = new ModelAndView("/searchDetail");

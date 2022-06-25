@@ -4,8 +4,6 @@ import kwang.ho.dto.board.PagingVO;
 import kwang.ho.dto.book.BookDto;
 import kwang.ho.service.book.BookService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +19,7 @@ public class BookController {
 
     private final BookService bookService;
 
+    //도서정보 리스트
     @RequestMapping("/bookList.do")
     public String selectBookListWithPaging(PagingVO pagingVO, Model model
             , @RequestParam(value="nowPage", required=false)String nowPage
@@ -43,13 +42,15 @@ public class BookController {
         return "/bookList";
     }
 
-    // 게시판 글쓰기페이지 이동
+    // 도서정보 등록 페이지 이동
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/bookWrite.do")
     public String openBookWrite() throws Exception {
         return "/bookWrite";
     }
 
-    // 게시판 작성
+    // 도서정보 등록
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/bookInsert.do")
     public String insertBook(BookDto bookDto, Principal principal) throws Exception {
 
@@ -59,7 +60,7 @@ public class BookController {
         return "redirect:/bookList.do";
     }
 
-    // 게시판 상세보기
+    // 도서정보 상세보기
     @RequestMapping("/bookDetail.do")
     public ModelAndView bookDetail(@RequestParam int bid) throws Exception {
         ModelAndView mv = new ModelAndView("/bookDetail");
@@ -68,7 +69,8 @@ public class BookController {
         return mv;
     }
 
-    // 게시판 수정페이지 호출
+    // 도서정보 수정페이지 호출
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/openBookModify.do")
     public ModelAndView openBookModify(@RequestParam int bid) throws Exception {
         ModelAndView mv = new ModelAndView("/bookModify");
@@ -77,8 +79,8 @@ public class BookController {
         return mv;
     }
 
-    // 게시판 수정
-    @PreAuthorize("hasRole('ADMIN') or (#board.creator_Id==principal.username)")
+    // 도서정보 수정
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/bookModify.do")
     public String bookModify(BookDto bookDto, Principal principal) throws Exception {
 
@@ -87,8 +89,8 @@ public class BookController {
         return "redirect:/bookList.do";
     }
 
-    // 게시판 삭제
-    @PreAuthorize("hasRole('ADMIN') or (#creator_Id==principal.username)")
+    // 도서정보 삭제
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/bookDelete.do")
     public String bookDelete(@RequestParam int bid, @RequestParam("creator_Id") String creator_Id, Principal principal) throws Exception {
 

@@ -33,6 +33,4 @@ public interface BoardService {
 
     // 게시판 답글 저장
     int boardReply(BoardDto boardDto) throws Exception;
-
-
 }

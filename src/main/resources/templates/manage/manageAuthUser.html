@@ -82,8 +82,6 @@ margin:  0;
                 </li>
             </ul>
 
-            <button onclick="location.href='/manage/manage'" class="btn btn-success" sec:authorize="hasRole('ADMIN')">관리자페이지</button>
-
             ID : <span sec:authentication="principal.user_Id" style="font-weight:bold;"></span>
             <span>님 환영합니다.&nbsp;&nbsp;&nbsp;</span>
             <form id="logout" action="/logout" method="POST">
@@ -103,44 +101,45 @@ margin:  0;
     <div class="row flex-nowrap">
         <div class="col-2 bd-sidebar" >
             <ul class="nav">
-                <li><a th:onclick="location.href='/boardList.do'">공지사항</a></li>
-                <li><a>책 중고장터</a></li>
-                <li><a>책 구매요청</a></li>
-                <th:block sec:authorize="hasRole('ADMIN')">
-                <li><a th:onclick="location.href='/bookList.do'">도서</a></li>
-                </th:block>
+                <li><a th:onclick="location.href='/manage/userAuth'">관리자 권한</a></li>
+                <li><a>베스트셀러</a></li>
             </ul>
             <br>
         </div>
-<!-- sidebar -->
-
+        <!-- sidebar -->
         <main class="col-9 py-md-3 pl-md-5 bd-content" role="main">
-            <!--search-->
-            <div class="form-inline">
-                <select class="form-control search-select" th:name="searchType" id="searchType" style="width:20%">
-                    <option th:value="author">저자</option>
-                    <option th:value="book_Name">도서명</option>
-                </select>
-                <input th:type="text" class="form-control search-input" th:name="keyword" id="keyword" style="width:70%">
-                <button th:type="button" class="btn btn-primary" th:name="btnSearch" id="btnSearch">검색</button>
-            </div>
-            <!--search-->
+            <button th:type="button" class="btn btn-primary" th:name="adminUserAddBtn" id="adminUserAddBtn">추가</button>
+                <button th:type="button" id="delete-btn" class="btn btn-primary" th:name="adminUpdatebtn">삭제</button>
+            <table class="table table-striped">
+                <colgroup>
+                    <col width="15%"/>
+                    <col width="45%"/>
+                    <col widht="10%"/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col">선택</th>
+                    <th scope="col">아이디</th>
+                    <th scope="col">사용자명</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.size(user)} > 0" th:each="user : ${user}">
+                    <td><input th:type="checkbox" th:name="checkedUser" th:value="${user.user_Id}"></td>
+                    <td><th:block th:text="${user.user_Id}"/></td>
+                    <td><th:block th:text="${user.user_Name}"/></td>
+                </tr>
+                <tr th:unless="${#lists.size(user)} > 0">
+                    <td colspan="4">조회된 결과가 없습니다.</td>
+                </tr>
+                </tbody>
+            </table>
         </main>
     </div>
 </div>
 
 
 </body>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="application/javascript">
-	$(document).on('click', '#btnSearch', function(e){
-        e.preventDefault();
-        var url = "/searchList.do";
-        url = url + "?searchType=" + $('#searchType').val();
-        url = url + "&keyword=" + $('#keyword').val();
-        window.open(url,"SearchWin","width=1400,height=1000");
-    });
-</script>
 <!-- footer-->
 <div style = "text-align:center;" class="container-fluid navbar-fixed-bottom">
     <div style="font-size:.6rem;">
@@ -154,5 +153,41 @@ margin:  0;
 
 </div>
 <!-- footer-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
 
+ var status = "resizable=yes,status=no,width=400, height=500, top=120, left=1000";
+ $(document).on('click', '#adminUserAddBtn', function(e){
+    e.preventDefault();
+    var url = "/manage/manageAuthUserSelect";
+
+    window.open(url,"SearchWin",status);
+});
+
+
+// 어드민 권한 삭제하기, 선택된 유저아이디 값 가져오기
+$('#delete-btn').click(function(){
+    var checkArr = new Array();
+
+    $("input[type=checkbox][name=checkedUser]:checked").each(function(){
+        checkArr.push($(this).val());
+    });
+
+    $.ajax({
+        url : '/manage/deleteAdminAuth',
+        type : 'post',
+        dataType : 'json',
+        contentType : "application/json",
+        data : JSON.stringify(checkArr),
+        success : function(result){
+            if(result == 1){
+               window.location.href = "/manage/userAuth";
+            } else {
+            alert("삭제 실패");
+            }
+        }
+    });
+});
+
+</script>
 </html>

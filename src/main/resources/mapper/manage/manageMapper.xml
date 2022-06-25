@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kwang.ho.mapper.manage.ManageMapper">
+
+    <!-- 전체 유저정보 조회 -->
+    <select id="selectUserList" resultType="kwang.ho.dto.user.UserDto" >
+        <![CDATA[
+			SELECT USER_ID, USER_NAME, USER_AUTH
+			FROM T_USER ORDER BY USER_ID ASC
+		 ]]>
+    </select>
+
+    <!-- 전체 관리자 유저정보 조회 -->
+    <select id="selectAdminUserList" resultType="kwang.ho.dto.user.UserDto" >
+        <![CDATA[
+			SELECT USER_ID, USER_NAME
+			FROM T_USER WHERE USER_AUTH='ROLE_ADMIN'
+		 ]]>
+    </select>
+
+    <!-- 관리자 권한 부여 -->
+    <update id="updateAdminAuth" parameterType="java.util.List" >
+
+        UPDATE T_USER SET USER_AUTH='ROLE_ADMIN'
+        WHERE USER_ID IN(
+        <foreach collection="list" item="user_Id" index="index" separator=",">
+        #{user_Id}
+        </foreach>
+        )
+
+    </update>
+
+    <!-- 관리자 권한 삭제 -->
+    <update id="deleteAdminAuth" parameterType="java.util.List" >
+
+            UPDATE T_USER SET USER_AUTH='ROLE_USER'
+			WHERE USER_ID IN(
+			<foreach collection="list" item="user_Id" index="index" separator=",">
+			#{user_Id}
+			</foreach>
+			)
+    </update>
+
+</mapper>
