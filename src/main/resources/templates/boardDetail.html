@@ -137,11 +137,13 @@
 <script>
     var bid = [[${board.bid}]];
 
+    // 댓글 저장버튼 클릭시 실행
     $('[name=commentInsertBtn]').click(function(){
         var insertData = $('[name=commentInsertForm]').serialize();
         commentInsert(insertData);
     });
 
+    // 댓글 리스트
     function commentList(){
         $.ajax({
             url : '/comment/list',
@@ -164,6 +166,7 @@
         });
     }
 
+    // 댓글 저장
     function commentInsert(insertData){
         $.ajax({
             url : '/comment/insert',
@@ -178,6 +181,7 @@
         });
     }
 
+    // 댓글 수정 폼 생성
     function commentUpdate(cid, content){
         var a = '';
 
@@ -189,6 +193,7 @@
         $('.commentContent'+cid).html(a);
     }
 
+    // 댓글 수정
     function commentUpdateProc(cid){
         var updateContent = $('[name=content_'+cid+']').val();
 
@@ -202,6 +207,7 @@
         });
     }
 
+    // 댓글 삭제
     function commentDelete(cid){
         $.ajax({
             url : '/comment/delete/'+cid,
@@ -215,18 +221,19 @@
         });
     }
 
+    // 댓글 목록
     $(document).ready(function(){
         commentList();
     });
 
-    // commentDelete 함수 실행하기
+    // 댓글 삭제 함수 실행하기
     $('body').on('click','.deleteBtn',function(e){
       // a 태그의 data 속성에 저장된 cid 값 가져오기
       var cid = $(this).attr('data-cid');
       commentDelete(cid);
     });
 
-    // commentUpdate 함수 실행하기
+    // 댓글 수정 폼 함수 실행하기
     $('body').on('click','.updateBtn',function(e){
       // a 태그의 data 속성에 저장된 cid 값 가져오기
       var cid = $(this).attr('data-cid');
@@ -234,6 +241,7 @@
       commentUpdate(cid,content);
     });
 
+    // 댓글 수정 함수 실행
     $('body').on('click','#updateBtnProc',function(e){
       var cid = $(this).attr('th:text');
       commentUpdateProc(cid);

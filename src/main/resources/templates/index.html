@@ -1,10 +1,65 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
 <head>
     <meta charset="UTF-8">
     <title>도서검색시스템</title>
 </head>
 <style>
+
+img{
+    border:none;
+}
+
+#best{
+    width:2000px;
+    height:430px;
+    background-color:rgb(168, 218, 255);
+    padding-left:30px;
+    padding-right:30px;
+    position:relative;
+}
+
+#bannerWrap{
+    width:1000px;
+    height:420px;
+    overflow:hidden;
+}
+
+#banner1 li, #banner2 li, #banner3 li{
+    list-style:none;
+    float:left;
+    width:200px;
+    margin:20px 20px;
+}
+
+#frame {
+    position:relative;
+}
+
+.prev{
+    position:absolute;
+    cursor:pointer;
+    border:none;
+    z-index:3;
+    padding:0;
+    top:200px;
+}
+
+.next {
+    position:absolute;
+    cursor:pointer;
+    border:none;
+    padding:0;
+    z-index:3;
+    right:950px;
+    top:200px;
+}
+
+#banner1, #banner2, #banner3{
+    position:absolute;
+}
+
 .navbar-expand-lg {
   position: sticky;
   top: 0;
@@ -112,7 +167,7 @@ margin:  0;
             </ul>
             <br>
         </div>
-<!-- sidebar -->
+        <!-- sidebar -->
 
         <main class="col-9 py-md-3 pl-md-5 bd-content" role="main">
             <!--search-->
@@ -125,6 +180,67 @@ margin:  0;
                 <button th:type="button" class="btn btn-primary" th:name="btnSearch" id="btnSearch">검색</button>
             </div>
             <!--search-->
+
+            <div style="height:100px;"></div>
+            <h3 style="font-weight:bold;">베스트셀러</h3>
+            <!-- 베스트 셀러 롤링 시작-->
+            <div id="best">
+                <button class="prev" >
+                    <img src="bootstrap/img/prev.PNG" alt="다음" onclick="bannerPrev()">
+                </button>
+
+                <div id="bannerWrap">
+                    <div id="frame">
+                        <ul id="banner1" class="banner" style="z-index:5">
+                            <li>
+                                <a href="#"><img src="bootstrap/img/book1.PNG" alt="사진1" style="width:200px;height:350px;"></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="bootstrap/img/book2.PNG" alt="사진2" style="width:200px;height:350px;"></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="bootstrap/img/book3.PNG" alt="사진3" style="width:200px;height:350px;"></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="bootstrap/img/book4.PNG" alt="사진4" style="width:200px;height:350px;"></a>
+                            </li>
+                        </ul>
+                        <ul id="banner2" class="banner" style="z-index:1">
+                            <li>
+                                <a href="#"><img src="bootstrap/img/book5.PNG" alt="사진5" style="width:200px;height:350px;"></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="bootstrap/img/book6.PNG" alt="사진6" style="width:200px;height:350px;"></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="bootstrap/img/book7.PNG" alt="사진7" style="width:200px;height:350px;"></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="bootstrap/img/book8.PNG" alt="사진8" style="width:200px;height:350px;"></a>
+                            </li>
+                        </ul>
+                        <ul id="banner3" class="banner" style="z-index:1">
+                            <li>
+                                <a href="#"><img src="bootstrap/img/book9.PNG" alt="사진9" style="width:200px;height:350px;"></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="bootstrap/img/book10.PNG" alt="사진10" style="width:200px;height:350px;"></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="bootstrap/img/book11.PNG" alt="사진11" style="width:200px;height:350px;"></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="bootstrap/img/book12.PNG" alt="사진12" style="width:200px;height:350px;"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="next" >
+                    <img src="bootstrap/img/next.PNG" alt="다음" onclick="bannerNext()">
+                </button>
+            </div>
+            <!-- 베스트 셀러 롤링 끝-->
+
         </main>
     </div>
 </div>
@@ -133,14 +249,40 @@ margin:  0;
 </body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="application/javascript">
-	$(document).on('click', '#btnSearch', function(e){
-        e.preventDefault();
-        var url = "/searchList.do";
-        url = url + "?searchType=" + $('#searchType').val();
-        url = url + "&keyword=" + $('#keyword').val();
-        window.open(url,"SearchWin","width=1400,height=1000");
-    });
+
+$(document).on('click', '#btnSearch', function(e){
+    e.preventDefault();
+    var url = "/searchList.do";
+    url = url + "?searchType=" + $('#searchType').val();
+    url = url + "&keyword=" + $('#keyword').val();
+    window.open(url,"SearchWin","width=1400,height=1000");
+});
+
+var bookNum = 0;
+function bookBanner(){
+    bookNum ++;
+    if (bookNum == '3') {
+        bookNum = '0'
+    }
+    $(".banner").eq(bookNum).css("z-index", "2");
+    $(".banner").not($(".banner").eq(bookNum)).css("z-index", "1");
+}
+
+function bannerPrev() {
+    bookNum = bookNum - 2;
+
+    if (bookNum == -4){
+        bookNum = -1
+    }
+    bookBanner();
+}
+
+function bannerNext() {
+    bookBanner();
+}
+
 </script>
+
 <!-- footer-->
 <div style = "text-align:center;" class="container-fluid navbar-fixed-bottom">
     <div style="font-size:.6rem;">
@@ -151,7 +293,6 @@ margin:  0;
     <div style="margin-top:1rem;">
         <h6 style="font-family: 'Lobster', cursive;">KHBookStore</h6>
     </div>
-
 </div>
 <!-- footer-->
 
