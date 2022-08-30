@@ -1,19 +1,32 @@
 package kwang.ho.service.board;
 
+import kwang.ho.common.FileUtils;
 import kwang.ho.dto.board.BoardDto;
+import kwang.ho.dto.board.AttachDTO;
 import kwang.ho.dto.board.PagingVO;
+import kwang.ho.mapper.board.AttachMapper;
 import kwang.ho.mapper.board.BoardMapper;
-import org.apache.ibatis.annotations.Mapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class BoardServiceImpl implements BoardService {
 
     @Autowired
     private BoardMapper boardMapper;
+
+    @Autowired
+    private FileUtils fileUtils;
+
+    @Autowired
+    private AttachMapper attachMapper;
 
     // 게시글 목록
     @Override
@@ -32,9 +45,34 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void insertBoard(BoardDto board) throws Exception {
 
-        boardMapper.insertBoard(board);
-    }
 
+
+
+       // }
+    }
+    @Override
+    public boolean insertBoard(BoardDto board, MultipartFile[] files) throws Exception {
+        int queryResult = 1;
+
+       /* if (insertBoard(board) == false) {
+            return false;
+        }*/
+        boardMapper.insertBoard(board);
+        List<AttachDTO> fileList = fileUtils.uploadFiles(files, board.getBid());
+        if (CollectionUtils.isEmpty(fileList) == false) {
+            
+            for(AttachDTO data: fileList){
+                System.out.println("data = " + data);
+            }
+            System.out.println("fileList = " + fileList);
+            queryResult = attachMapper.insertAttach(fileList);
+            if (queryResult < 1) {
+                queryResult = 0;
+            }
+        }
+
+        return (queryResult > 0);
+    }
     // 게시글 삭제
     @Override
     public void boardDelete(int bid) throws Exception {

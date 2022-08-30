@@ -8,6 +8,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -48,12 +50,12 @@ public class BoardController {
 
     // 게시판 작성
     @RequestMapping("/boardInsert.do")
-    public String insertBoard(BoardDto board, Principal principal) throws Exception {
+    public String insertBoard(BoardDto board, MultipartFile[] files, Principal principal) throws Exception {
 
         String id = principal.getName();
         board.setCreator_Id(id);
         board.setUpdater_Id(id);
-        boardService.insertBoard(board);
+        boardService.insertBoard(board, files);
         return "redirect:/boardList.do";
     }
 

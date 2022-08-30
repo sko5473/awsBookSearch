@@ -52,7 +52,7 @@
     <div class="table table-striped">
         <div class="fw-light fs-3 text-center " style="float:none; margin:0 auto; height:80px">공지사항</div>
 
-        <form action="/boardInsert.do" id="frm" name="frm" method="post">
+        <form action="/boardInsert.do" id="frm" name="frm" method="post" enctype="multipart/form-data">
 
             <button class="btn btn-success" th:type="submit" id="submit" style="float: right;">저장</button>
             <div style="height:50px"></div>
@@ -66,6 +66,9 @@
                         <textarea id="contents" name="contents" rows="20" cols="170" placeholder="내용을 입력하세요."
                                   style="resize: none;"></textarea>
                     </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input th:type="file" id="files" name="files" multiple="multiple"></td>
                 </tr>
             </table>
         </form>
