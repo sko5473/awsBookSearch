@@ -41,4 +41,29 @@
 			)
     </update>
 
+    <!-- 베스트셀러 목록 저장 -->
+    <update id="saveBestList" parameterType="java.util.List" >
+        <![CDATA[
+        INSERT INTO T_BEST (NUMB, BEST1, BEST1NAME, BEST2, BEST2NAME, BEST3, BEST3NAME, BEST4, BEST4NAME, BEST5, BEST5NAME, BEST6, BEST6NAME, BEST7, BEST7NAME, BEST8, BEST8NAME, BEST9, BEST9NAME, BEST10, BEST10NAME, BEST11, BEST11NAME, BEST12, BEST12NAME)
+        VALUES
+        (
+        best_seq.nextval,
+        ]]>
+        <foreach collection="list" item="bid" index="index" separator=",">
+        #{bid}
+        </foreach>
+        )
+    </update>
+
+    <!-- 베스트셀러 도서 조회 -->
+    <select id="searchBest" parameterType="String" resultType="kwang.ho.dto.book.BookDto">
+        <![CDATA[
+        SELECT *
+        FROM
+        (SELECT * FROM BOOK
+        ORDER BY CREATE_DATE DESC)
+        WHERE book_Name like '%'||#{bestKeyword}||'%'
+        AND ROWNUM <= 12
+        ]]>
+    </select>
 </mapper>

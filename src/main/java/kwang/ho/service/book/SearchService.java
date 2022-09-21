@@ -1,6 +1,7 @@
 package kwang.ho.service.book;
 
 import kwang.ho.dto.board.PagingVO;
+import kwang.ho.dto.book.BestSellerDto;
 import kwang.ho.dto.book.BookDto;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface SearchService {
 
     // 게시글 갯수
     int selectSearchTotalCount(PagingVO pagingVO) throws Exception;
+
+    BestSellerDto showCurrentBestList() throws Exception;
+
 }

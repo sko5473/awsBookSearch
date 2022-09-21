@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kwang.ho.mapper.main.MainMapper">
+
+    <!-- 베스트셀러 목록 모델 index 전달 -->
+    <select id="selectBestList" resultType="kwang.ho.dto.book.BestSellerDto" >
+        SELECT BEST1, BEST2, BEST3, BEST4, BEST5, BEST6, BEST7, BEST8, BEST9, BEST10, BEST11, BEST12
+        FROM (SELECT * FROM T_BEST A ORDER BY NUMB DESC)
+        WHERE ROWNUM = 1
+    </select>
+
+</mapper>

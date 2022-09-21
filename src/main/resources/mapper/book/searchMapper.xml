@@ -38,18 +38,13 @@
         <if test="searchType == null or searchType == ''">1 = 1</if>
     </select>
 
- <!-- <sql id="searchList">
-        <choose>
-            &lt;!&ndash; 전체검색일 경우&ndash;&gt;
-            <when test="searchType == 'all'">
-                WHERE book_Name like '%'||#{keyword}||'%'
-                OR author like '%'||#{keyword}||'%'
-            </when>
-            &lt;!&ndash; 개별 검색일 경우&ndash;&gt;
-            <otherwise>
-                WHERE ${searchType} like '%'||#{keyword}||'%'
-            </otherwise>
-        </choose>
-    </sql>-->
+    <!-- 도서게시판 상세보기 -->
+    <select id="showCurrentBestList" resultType="kwang.ho.dto.book.BestSellerDto">
+        <![CDATA[
+			SELECT *
+			FROM (SELECT * FROM T_BEST ORDER BY NUMB DESC)
+			WHERE ROWNUM=1
+		 ]]>
+    </select>
 
 </mapper>

@@ -16,11 +16,12 @@
     </select>
 
     <!-- 도서게시판 상세보기 -->
-    <select id="selectBookDetail" parameterType="int" resultType="kwang.ho.dto.book.BookDto" >
+    <select id="selectBookDetail" parameterType="int" resultType="kwang.ho.dto.book.BookAttachDto" >
         <![CDATA[
-			SELECT bid, book_Name, author, story, publication_Date,location, TO_CHAR(create_Date, 'YYYY-MM-DD HH24:MI:SS') AS create_Date, creator_Id
-			FROM book
-			WHERE bid=#{bid} AND deleted_YN='N'
+    select a.bid, a.book_Name, a.author, a.story, a.publication_Date,a.location, TO_CHAR(a.create_Date, 'YYYY-MM-DD HH24:MI:SS') AS create_Date, a.creator_Id,
+    b.original_Name,b.save_Name,b.sizee,b.delete_Yn,b.insert_Time,b.delete_Time
+    from book a, "C##KWANG"."tb_attach" b
+    where a.bid = #{bid} AND a.deleted_YN='N' AND a.bid=b.board_IDX
 		 ]]>
     </select>
 
@@ -33,7 +34,7 @@
 			)
 			VALUES
 			(
-				book_seq.nextval,
+				kwang_seq.nextval,
 				#{book_Name},
 				#{author},
 				#{story},
@@ -45,7 +46,7 @@
 		]]>
     </insert>
 
-    <!-- 게시판 삭제 -->
+    <!-- 도서게시물 삭제 -->
     <delete id="bookDelete" parameterType="int">
         <![CDATA[
 			DELETE FROM book
@@ -56,7 +57,7 @@
     <!-- 도서게시판 수정페이지 호출 -->
     <select id="selectOpenBookModify" parameterType="int" resultType="kwang.ho.dto.book.BookDto" >
         <![CDATA[
-			SELECT bid, book_Name, author, story, publication_Date,location, TO_CHAR(create_Date, 'YYYY-MM-DD HH24:MI:SS') AS create_Date, creator_Id
+			SELECT bid, book_Name, author, story, publication_Date, location, TO_CHAR(create_Date, 'YYYY-MM-DD HH24:MI:SS') AS create_Date, creator_Id
 			FROM book
 			WHERE bid=#{bid} AND deleted_YN='N'
 		 ]]>

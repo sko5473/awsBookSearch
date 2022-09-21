@@ -1,6 +1,7 @@
 package kwang.ho.service.book;
 
 import kwang.ho.dto.board.PagingVO;
+import kwang.ho.dto.book.BestSellerDto;
 import kwang.ho.dto.book.BookDto;
 import kwang.ho.mapper.book.SearchMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,11 @@ public class SearchServiceImpl implements SearchService{
     public int selectSearchTotalCount(PagingVO pagingVO) throws Exception {
         return searchMapper.selectSearchTotalCount(pagingVO);
     }
+
+    @Override
+    public BestSellerDto showCurrentBestList() throws Exception {
+        return searchMapper.showCurrentBestList();
+    }
+
 
 }

@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -45,11 +46,10 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void insertBoard(BoardDto board) throws Exception {
 
-
-
-
        // }
     }
+
+    // 게시글 등록(첨부파일 추가)
     @Override
     public boolean insertBoard(BoardDto board, MultipartFile[] files) throws Exception {
         int queryResult = 1;
@@ -59,12 +59,12 @@ public class BoardServiceImpl implements BoardService {
         }*/
         boardMapper.insertBoard(board);
         List<AttachDTO> fileList = fileUtils.uploadFiles(files, board.getBid());
-        if (CollectionUtils.isEmpty(fileList) == false) {
+        if (!CollectionUtils.isEmpty(fileList)) {
             
             for(AttachDTO data: fileList){
                 System.out.println("data = " + data);
             }
-            System.out.println("fileList = " + fileList);
+
             queryResult = attachMapper.insertAttach(fileList);
             if (queryResult < 1) {
                 queryResult = 0;
@@ -73,6 +73,17 @@ public class BoardServiceImpl implements BoardService {
 
         return (queryResult > 0);
     }
+
+    @Override
+    public List<AttachDTO> getAttachFileList(int bid) {
+
+        int fileTotalCount = attachMapper.selectAttachTotalCount(bid);
+        if (fileTotalCount < 1) {
+            return Collections.emptyList();
+        }
+        return attachMapper.selectAttachList(bid);
+    }
+
     // 게시글 삭제
     @Override
     public void boardDelete(int bid) throws Exception {

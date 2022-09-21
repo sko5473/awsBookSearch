@@ -1,6 +1,7 @@
 package kwang.ho.controller.book;
 
 import kwang.ho.dto.board.PagingVO;
+import kwang.ho.dto.book.BookAttachDto;
 import kwang.ho.dto.book.BookDto;
 import kwang.ho.service.book.BookService;
 import lombok.RequiredArgsConstructor;
@@ -9,9 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -52,11 +56,11 @@ public class BookController {
     // 도서정보 등록
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/bookInsert.do")
-    public String insertBook(BookDto bookDto, Principal principal) throws Exception {
+    public String insertBook(BookDto bookDto, MultipartFile[] files, Principal principal) throws Exception {
 
         String id = principal.getName();
         bookDto.setCreator_Id(id);
-        bookService.insertBook(bookDto);
+        bookService.insertBook(bookDto, files);
         return "redirect:/bookList.do";
     }
 
@@ -64,7 +68,7 @@ public class BookController {
     @RequestMapping("/bookDetail.do")
     public ModelAndView bookDetail(@RequestParam int bid) throws Exception {
         ModelAndView mv = new ModelAndView("/bookDetail");
-        BookDto bookDto = bookService.selectBookDetail(bid);
+        BookAttachDto bookDto = bookService.selectBookDetail(bid);
         mv.addObject("bookDto", bookDto);
         return mv;
     }
@@ -98,4 +102,11 @@ public class BookController {
         return "redirect:/bookList.do";
     }
 
+    // 메인페이지 베스트셀러 상세보기
+    @RequestMapping("/bestSellerDetail")
+    @ResponseBody
+    public BookAttachDto bestSellerDetail(int bid) throws Exception {
+
+        return bookService.selectBookDetail(bid);
+    }
 }

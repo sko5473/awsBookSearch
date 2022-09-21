@@ -1,9 +1,12 @@
 package kwang.ho.mapper.manage;
 
+import kwang.ho.dto.book.BestSellerDto;
+import kwang.ho.dto.book.BookDto;
 import kwang.ho.dto.user.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Objects;
 
 @Mapper
 public interface ManageMapper {
@@ -17,5 +20,7 @@ public interface ManageMapper {
 
     void deleteAdminAuth(List<String> user_Id) throws Exception;
 
+    void saveBestList(List<String> bid) throws Exception;
 
+    List<BookDto> searchBest(String bestKeyword) throws Exception;
 }

@@ -40,7 +40,7 @@
         <tr th:each="user : ${user}" id="userArray">
             <td><input th:type="checkbox" th:name="userSelect" th:attr="data-id=${user.user_Auth}" th:value="${user.user_Id}" class="box"></td>
             <td th:block th:text="${user.user_Id}"/>
-            <td  th:name="userName" th:text="${user.user_Name}" th:value="${user.user_Name}"/><br>
+            <td th:name="userName" th:text="${user.user_Name}" th:value="${user.user_Name}"/><br>
         </tr>
     </tbody>
 </table>

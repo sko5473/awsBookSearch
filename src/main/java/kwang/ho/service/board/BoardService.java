@@ -1,5 +1,6 @@
 package kwang.ho.service.board;
 
+import kwang.ho.dto.board.AttachDTO;
 import kwang.ho.dto.board.BoardDto;
 import kwang.ho.dto.board.PagingVO;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,9 @@ public interface BoardService {
     void insertBoard(BoardDto board) throws Exception;
 
     boolean insertBoard(BoardDto board, MultipartFile[] files) throws Exception;
+
+    // 게시글 첨부파일 리스트 가져오기
+    List<AttachDTO> getAttachFileList(int bid);
 
     // 게시글 삭제
     void boardDelete(int bid) throws Exception;

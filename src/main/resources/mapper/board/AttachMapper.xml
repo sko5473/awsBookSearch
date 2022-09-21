@@ -14,65 +14,61 @@
         , delete_time
     </sql>
 
-    <insert id="insertAttach" parameterType="list">
+    <update id="insertAttach" parameterType="java.util.List">
+            <foreach collection="list" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+                INTO "C##KWANG"."tb_attach"
+                VALUES (
+                BOARD_FILE_SEQ.nextval
+                , kwang_seq.currval
+                , #{item.original_Name}
+                , #{item.save_Name}
+                , #{item.sizee}
+                , 'N'
+                , sysdate
+                , NULL)
+            </foreach>
+    </update>
 
-        INSERT INTO "C##KWANG"."tb_attach" (
-        <include refid="attachColumns" />
-        ) VALUES
-        <foreach collection="list" item="item" separator=",">
-            (
-            BOARD_FILE_SEQ.nextval
-            , kwang_seq.currval
-            , #{item.originalName}
-            , #{item.saveName}
-            , #{item.sizee}
-            , 'N'
-            , sysdate
-            , NULL
-            )
-        </foreach>
-    </insert>
-
-    <select id="selectAttachDetail" parameterType="long" resultType="kwang.ho.dto.board.AttachDTO">
+    <select id="selectAttachDetail" parameterType="int" resultType="kwang.ho.dto.board.AttachDTO">
         SELECT
         <include refid="attachColumns" />
         FROM
-        tb_attach
+        "C##KWANG"."tb_attach"
         WHERE
         delete_yn = 'N'
         AND
         idx = #{idx}
     </select>
 
-    <update id="deleteAttach" parameterType="long">
-        UPDATE tb_attach
+    <update id="deleteAttach" parameterType="int">
+        UPDATE "C##KWANG"."tb_attach"
         SET
         delete_yn = 'Y'
         , delete_time = sysdate
         WHERE
-        board_idx = #{boardIdx}
+        board_idx = #{board_Idx}
     </update>
 
-    <select id="selectAttachList" parameterType="long" resultType="kwang.ho.dto.board.AttachDTO">
+    <select id="selectAttachList" parameterType="int" resultType="kwang.ho.dto.board.AttachDTO">
         SELECT
-        <include refid="attachColumns" />
+        *
         FROM
-        tb_attach
+        "C##KWANG"."tb_attach"
         WHERE
         delete_yn = 'N'
         AND
-        board_idx = #{boardIdx}
+        board_idx = #{bid}
     </select>
 
-    <select id="selectAttachTotalCount" parameterType="long" resultType="int">
+    <select id="selectAttachTotalCount" parameterType="int" resultType="int">
         SELECT
         COUNT(*)
         FROM
-        tb_attach
+        "C##KWANG"."tb_attach"
         WHERE
         delete_yn = 'N'
         AND
-        board_idx = #{boardIdx}
+        board_idx = #{bid}
     </select>
 
 </mapper>

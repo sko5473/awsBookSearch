@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface AttachMapper {
 
-    public int insertAttach(List<AttachDTO> attachList);
+    int insertAttach(List<AttachDTO> attachList);
 
-    public AttachDTO selectAttachDetail(Long idx);
+    AttachDTO selectAttachDetail(Long idx);
 
-    public int deleteAttach(Long boardIdx);
+    int deleteAttach(int boardIdx);
 
-    public List<AttachDTO> selectAttachList(Long boardIdx);
+    List<AttachDTO> selectAttachList(int bid);
 
-    public int selectAttachTotalCount(Long boardIdx);
+    int selectAttachTotalCount(int bid);
 }

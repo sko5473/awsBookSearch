@@ -1,5 +1,6 @@
 package kwang.ho.controller.board;
 
+import kwang.ho.dto.board.AttachDTO;
 import kwang.ho.dto.board.BoardDto;
 import kwang.ho.dto.board.PagingVO;
 import kwang.ho.service.board.BoardService;
@@ -9,10 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class BoardController {
@@ -70,10 +71,17 @@ public class BoardController {
 
     // 게시판 수정페이지 호출
     @RequestMapping("/openBoardModify.do")
-    public ModelAndView openBoardModify(@RequestParam int bid) throws Exception {
+    public ModelAndView openBoardModify(@RequestParam int bid, Model model) throws Exception {
+
         ModelAndView mv = new ModelAndView("/boardModify");
         BoardDto board = boardService.selectOpenBoardModify(bid);
+
+        List<AttachDTO> fileList = boardService.getAttachFileList(bid);
+        System.out.println("fileList = " + fileList);
+
+        model.addAttribute("fileList", fileList);
         mv.addObject("board", board);
+
         return mv;
     }
 

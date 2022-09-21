@@ -1,5 +1,7 @@
 package kwang.ho.service.manage;
 
+import kwang.ho.dto.book.BestSellerDto;
+import kwang.ho.dto.book.BookDto;
 import kwang.ho.dto.user.UserDto;
 import kwang.ho.mapper.manage.ManageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +37,16 @@ public class ManageServiceImpl implements ManageService{
     public void deleteAdminAuth(List<String> user_Id) throws Exception {
 
         manageMapper.deleteAdminAuth(user_Id);
+    }
+
+    @Override
+    public void saveBestList(List<String> bid) throws Exception {
+
+        manageMapper.saveBestList(bid);
+    }
+
+    @Override
+    public List<BookDto> searchBest(String bestKeyword) throws Exception {
+        return manageMapper.searchBest(bestKeyword) ;
     }
 }

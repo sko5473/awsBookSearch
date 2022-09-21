@@ -1,14 +1,19 @@
 package kwang.ho.controller.book;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import kwang.ho.dto.board.PagingVO;
 import kwang.ho.dto.book.BookDto;
 import kwang.ho.service.book.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -49,4 +54,14 @@ public class SearchController {
         mv.addObject("bookDto", bookDto);
         return mv;
     }
+
+    // 베스트셀러 수정 페이지로 이동
+    @RequestMapping("/bestSearchList.do")
+    public String bestSearchMove(Model model) throws Exception {
+
+        model.addAttribute("show", searchService.showCurrentBestList());
+
+        return "/manage/searchBestSeller";
+    }
+
 }
