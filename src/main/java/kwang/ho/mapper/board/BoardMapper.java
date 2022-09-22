@@ -4,6 +4,7 @@ import kwang.ho.dto.board.BoardDto;
 import kwang.ho.dto.board.AttachDTO;
 import kwang.ho.dto.board.PagingVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

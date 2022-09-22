@@ -24,6 +24,9 @@ public interface BoardService {
     // 게시글 첨부파일 리스트 가져오기
     List<AttachDTO> getAttachFileList(int bid);
 
+    // 게시글 조회시 첨부파일 리스트 개수 가져오기
+    int selectFileListCount(int bid);
+
     // 게시글 삭제
     void boardDelete(int bid) throws Exception;
 
@@ -31,7 +34,7 @@ public interface BoardService {
     BoardDto selectOpenBoardModify(int bid) throws Exception;
 
     // 게시글 수정
-    void boardModify(BoardDto board) throws Exception;
+    void boardModify(BoardDto board, MultipartFile[] files) throws Exception;
 
     // 게시글 갯수
     int selectBoardTotalCount() throws Exception;

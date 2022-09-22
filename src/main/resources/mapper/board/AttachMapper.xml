@@ -14,19 +14,66 @@
         , delete_time
     </sql>
 
-    <update id="insertAttach" parameterType="java.util.List">
-            <foreach collection="list" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
-                INTO "C##KWANG"."tb_attach"
-                VALUES (
-                BOARD_FILE_SEQ.nextval
-                , kwang_seq.currval
-                , #{item.original_Name}
-                , #{item.save_Name}
-                , #{item.sizee}
-                , 'N'
-                , sysdate
-                , NULL)
-            </foreach>
+    <!--글 쓰기시 첨부파일 추가-->
+    <insert id="insertAttach" parameterType="java.util.List">
+        INSERT INTO "C##KWANG"."tb_attach"(
+        idx
+        , board_idx
+        , original_name
+        , save_name
+        , sizee
+        , delete_yn
+        , insert_time
+        , delete_time
+        )
+        SELECT BOARD_FILE_SEQ.NEXTVAL, kwang_seq.currval, A.* FROM (
+        <foreach collection="list" item="item" separator="UNION ALL ">
+                SELECT
+                #{item.original_Name} AS original_Name
+                , #{item.save_Name} AS save_Name
+                , #{item.sizee} AS sizee
+                , 'N' AS delete_Yn
+                , sysdate AS insert_Time
+                , NULL AS delete_Time
+            FROM DUAL
+            </foreach>) A
+    </insert>
+
+    <!--글 수정시 첨부파일 추가-->
+    <insert id="modifyAttach" parameterType="java.util.List">
+        INSERT INTO "C##KWANG"."tb_attach"(
+        idx
+        , board_idx
+        , original_name
+        , save_name
+        , sizee
+        , delete_yn
+        , insert_time
+        , delete_time
+        )
+        SELECT BOARD_FILE_SEQ.NEXTVAL, A.* FROM (
+        <foreach collection="list" item="item" separator="UNION ALL ">
+            SELECT
+            #{item.board_Idx} AS board_Idx
+            ,#{item.original_Name} AS original_Name
+            , #{item.save_Name} AS save_Name
+            , #{item.sizee} AS sizee
+            , 'N' AS delete_Yn
+            , sysdate AS insert_Time
+            , NULL AS delete_Time
+            FROM DUAL
+        </foreach>) A
+    </insert>
+
+    <update id="undeleteAttach" parameterType="list">
+        UPDATE "C##KWANG"."tb_attach"
+        SET
+        delete_yn = 'N'
+        WHERE
+        idx IN
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
     </update>
 
     <select id="selectAttachDetail" parameterType="int" resultType="kwang.ho.dto.board.AttachDTO">
@@ -68,6 +115,15 @@
         WHERE
         delete_yn = 'N'
         AND
+        board_idx = #{bid}
+    </select>
+
+    <select id="selectFileListCount" parameterType="int" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM
+        "C##KWANG"."tb_attach"
+        WHERE
         board_idx = #{bid}
     </select>
 

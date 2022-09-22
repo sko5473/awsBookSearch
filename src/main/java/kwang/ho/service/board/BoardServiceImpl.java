@@ -84,6 +84,12 @@ public class BoardServiceImpl implements BoardService {
         return attachMapper.selectAttachList(bid);
     }
 
+    @Override
+    public int selectFileListCount(int bid) {
+
+        return attachMapper.selectFileListCount(bid);
+    }
+
     // 게시글 삭제
     @Override
     public void boardDelete(int bid) throws Exception {
@@ -98,8 +104,29 @@ public class BoardServiceImpl implements BoardService {
 
     // 게시글 수정
     @Override
-    public void boardModify(BoardDto board) throws Exception {
+    public void boardModify(BoardDto board, MultipartFile[] files) throws Exception {
+
+
         boardMapper.boardModify(board);
+
+        // 파일이 추가, 삭제, 변경된 경우
+        if ("Y".equals(board.getChangeYn())) {
+            attachMapper.deleteAttach(board.getBid());
+
+            // fileIdxs에 포함된 idx를 가지는 파일의 삭제여부를 'N'으로 업데이트
+            if (!CollectionUtils.isEmpty(board.getFileIdxs())) {
+                attachMapper.undeleteAttach(board.getFileIdxs());
+            }
+        }
+
+        List<AttachDTO> fileList = fileUtils.uploadFiles(files, board.getBid());
+        if (!CollectionUtils.isEmpty(fileList)) {
+            attachMapper.modifyAttach(fileList);
+
+            for(AttachDTO data: fileList){
+                System.out.println("data = " + data);
+            }
+        }
     }
 
     // 게시글 갯수

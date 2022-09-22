@@ -1,5 +1,6 @@
 package kwang.ho.controller.board;
 
+import com.google.gson.Gson;
 import kwang.ho.dto.board.AttachDTO;
 import kwang.ho.dto.board.BoardDto;
 import kwang.ho.dto.board.PagingVO;
@@ -77,8 +78,11 @@ public class BoardController {
         BoardDto board = boardService.selectOpenBoardModify(bid);
 
         List<AttachDTO> fileList = boardService.getAttachFileList(bid);
+
+        int fileListCount = boardService.selectFileListCount(bid);
         System.out.println("fileList = " + fileList);
 
+        model.addAttribute("fileListCount", fileListCount);
         model.addAttribute("fileList", fileList);
         mv.addObject("board", board);
 
@@ -88,12 +92,12 @@ public class BoardController {
     // 게시판 수정
     @PreAuthorize("hasRole('ADMIN') or (#board.creator_Id==principal.username)")
     @RequestMapping("/boardModify.do")
-    public String boardModify(BoardDto board, Principal principal) throws Exception {
+    public String boardModify(BoardDto board, MultipartFile[] files, Principal principal) throws Exception {
 
         String updater_Id = principal.getName();
         board.setUpdater_Id(updater_Id);
-        boardService.boardModify(board);
-
+        boardService.boardModify(board, files);
+        System.out.println(board.getBid());
         return "redirect:/boardList.do";
     }
 

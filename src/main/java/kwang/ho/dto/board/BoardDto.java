@@ -2,6 +2,8 @@ package kwang.ho.dto.board;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class BoardDto {
     private int bid;
@@ -19,4 +21,11 @@ public class BoardDto {
     private int reply_Step;
     // 답글 레벨
     private int reply_Level;
+
+    /** 파일 변경 여부 */
+    private String changeYn;
+
+    /** 파일 인덱스 리스트 */
+    private List<Long> fileIdxs;
+
 }
