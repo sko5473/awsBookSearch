@@ -17,7 +17,9 @@ public interface BookMapper{
     void insertBook(BookDto bookDto) throws Exception;
 
     // 도서게시판 상세보기
-    BookAttachDto selectBookDetail(int bid) throws Exception;
+    BookAttachDto selectBestDetail(int bid) throws Exception;
+
+    BookDto selectBookDetail(int bid) throws Exception;
 
     // 도서게시물 삭제
     void bookDelete(int bid) throws Exception;

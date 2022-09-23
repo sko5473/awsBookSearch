@@ -67,7 +67,7 @@
 
     <div id="btn group">
         <button onclick="location.href='/boardList.do'" id="list" class="btn btn-success" style="float: right; margin-left:4px; margin-right:50px;">목록</button>
-        <!--<a href="/boardDelete.do?bid=" th:attrappend="href=${board.bid}"><button class="btn btn-success" style="float: right; margin-left:4px;">삭제</button></a>-->
+
         <form action="/boardDelete.do" id="delete" name="delete" method="post">
             <button class="btn btn-success" th:type="submit" id="submit" style="float: right; margin-left:4px;">삭제</button>
             <input type="hidden" th:name="bid" th:value="${board.bid}">

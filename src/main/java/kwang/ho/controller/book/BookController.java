@@ -70,8 +70,9 @@ public class BookController {
     @RequestMapping("/bookDetail.do")
     public ModelAndView bookDetail(@RequestParam int bid, Model model) throws Exception {
         ModelAndView mv = new ModelAndView("/bookDetail");
-        BookAttachDto bookDto = bookService.selectBookDetail(bid);
-
+        bookService.selectBestDetail(bid);
+        BookDto bookDto = bookService.selectBookDetail(bid);
+        System.out.println(bid);
         List<AttachDTO> fileList = bookService.getAttachFileList(bid);
         model.addAttribute("fileList", fileList);
 
@@ -117,6 +118,6 @@ public class BookController {
     @ResponseBody
     public BookAttachDto bestSellerDetail(int bid) throws Exception {
 
-        return bookService.selectBookDetail(bid);
+        return bookService.selectBestDetail(bid);
     }
 }

@@ -182,7 +182,7 @@ img{
                     <option th:value="author">저자</option>
                     <option th:value="book_Name">도서명</option>
                 </select>
-                <input th:type="text" class="form-control search-input" th:name="keyword" id="keyword" style="width:30%;float:left;">
+                <input th:type="text" class="form-control search-input" th:name="keyword" id="keyword" onkeydown="search();" style="width:30%;float:left;">
                 <button th:type="button" class="btn btn-primary" th:name="btnSearch" id="btnSearch">검색</button>
             </div>
             <!--search-->
@@ -251,6 +251,15 @@ img{
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 <script type="application/javascript">
+function search(){
+    if(window.event.keyCode == 13) {
+        var url = "/searchList.do";
+        url = url + "?searchType=" + $('#searchType').val();
+        url = url + "&keyword=" + $('#keyword').val();
+        window.open(url,"SearchWin","width=1400,height=1000");
+    }
+}
+
 $(document).ready(function(){
     let img1 = $(".b1").attr("value");
     let img2 = $(".b2").attr("value");

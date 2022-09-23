@@ -13,8 +13,10 @@ public interface BookService {
     // 도서게시글 목록
     List<BookDto> selectBookListWithPaging(PagingVO pagingVO) throws Exception;
 
-    // 도서게시글 상세보기
-    BookAttachDto selectBookDetail(int bid) throws Exception;
+    // 베스트셀러 상세보기
+    BookAttachDto selectBestDetail(int bid) throws Exception;
+
+    BookDto selectBookDetail(int bid) throws Exception;
 
     // 도서게시글 등록
     boolean insertBook(BookDto bookDto, MultipartFile[] files) throws Exception;

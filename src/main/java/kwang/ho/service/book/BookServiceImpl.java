@@ -35,7 +35,12 @@ public class BookServiceImpl implements BookService {
 
     // 도서게시글 상세보기
     @Override
-    public BookAttachDto selectBookDetail(int bid) throws Exception {
+    public BookAttachDto selectBestDetail(int bid) throws Exception {
+        return bookMapper.selectBestDetail(bid);
+    }
+
+    @Override
+    public BookDto selectBookDetail(int bid) throws Exception {
         return bookMapper.selectBookDetail(bid);
     }
 

@@ -16,7 +16,17 @@
     </select>
 
     <!-- 도서게시판 상세보기 -->
-    <select id="selectBookDetail" parameterType="int" resultType="kwang.ho.dto.book.BookAttachDto" >
+    <select id="selectBookDetail" parameterType="int" resultType="kwang.ho.dto.book.BookDto" >
+        <![CDATA[
+    select bid, book_Name, author, story, publication_Date,a.location, TO_CHAR(create_Date, 'YYYY-MM-DD HH24:MI:SS') AS create_Date, creator_Id
+    from book a
+    where a.bid = #{bid} AND DELETED_YN='N'
+		 ]]>
+    </select>
+
+
+    <!-- 관리자 베스트셀러 팝업창 상세보기 -->
+    <select id="selectBestDetail" parameterType="int" resultType="kwang.ho.dto.book.BookAttachDto" >
         <![CDATA[
     select a.bid, a.book_Name, a.author, a.story, a.publication_Date,a.location, TO_CHAR(a.create_Date, 'YYYY-MM-DD HH24:MI:SS') AS create_Date, a.creator_Id,
     b.original_Name,b.save_Name,b.sizee,b.delete_Yn,b.insert_Time,b.delete_Time

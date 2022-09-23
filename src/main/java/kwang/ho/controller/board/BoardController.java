@@ -144,7 +144,8 @@ public class BoardController {
     }
 
     @GetMapping("/boardDownload.do")
-    public void downloadAttachFile(@RequestParam(value="idx",required = false)final Integer idx, Model model, HttpServletResponse response) throws ParseException {
+    public void downloadAttachFile(@RequestParam(value="idx",required = false)final Integer idx, Model model,
+                                   HttpServletResponse response) throws ParseException {
         if (idx == null) throw new RuntimeException("올바르지 않은 접근입니다.");
 
         AttachDTO fileInfo = boardService.getAttachDetail(idx);
