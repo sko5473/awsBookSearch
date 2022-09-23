@@ -2,6 +2,8 @@ package kwang.ho.dto.book;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class BookDto {
 
@@ -14,4 +16,9 @@ public class BookDto {
     private String create_Date; //작성일
     private String creator_Id; //작성자
 
+    /** 파일 변경 여부 */
+    private String changeYn;
+
+    /** 파일 인덱스 리스트 */
+    private List<Long> fileIdxs;
 }

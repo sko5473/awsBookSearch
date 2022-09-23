@@ -110,7 +110,7 @@ public class BoardController {
         String updater_Id = principal.getName();
         board.setUpdater_Id(updater_Id);
         boardService.boardModify(board, files);
-        System.out.println(board.getBid());
+
         return "redirect:/boardList.do";
     }
 

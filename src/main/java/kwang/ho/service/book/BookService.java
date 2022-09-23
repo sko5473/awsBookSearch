@@ -1,5 +1,6 @@
 package kwang.ho.service.book;
 
+import kwang.ho.dto.board.AttachDTO;
 import kwang.ho.dto.board.PagingVO;
 import kwang.ho.dto.book.BookAttachDto;
 import kwang.ho.dto.book.BookDto;
@@ -25,9 +26,12 @@ public interface BookService {
     BookDto selectOpenBookModify(int bid) throws Exception;
 
     // 도서게시글 수정
-    void bookModify(BookDto bookDto) throws Exception;
+    void bookModify(BookDto bookDto, MultipartFile[] files) throws Exception;
 
     // 도서게시글 갯수
     int selectBookTotalCount() throws Exception;
+
+    //도서첨부물 상세보기
+    List<AttachDTO> getAttachFileList(int boardIdx);
 
 }

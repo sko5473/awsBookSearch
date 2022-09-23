@@ -65,6 +65,15 @@
         </foreach>) A
     </insert>
 
+    <update id="deleteAttach" parameterType="int">
+        UPDATE "C##KWANG"."tb_attach"
+        SET
+        delete_yn = 'Y'
+        , delete_time = sysdate
+        WHERE
+        board_idx = #{board_Idx}
+    </update>
+
     <update id="undeleteAttach" parameterType="list">
         UPDATE "C##KWANG"."tb_attach"
         SET
@@ -86,15 +95,6 @@
         AND
         idx = #{idx}
     </select>
-
-    <update id="deleteAttach" parameterType="int">
-        UPDATE "C##KWANG"."tb_attach"
-        SET
-        delete_yn = 'Y'
-        , delete_time = sysdate
-        WHERE
-        board_idx = #{board_Idx}
-    </update>
 
     <select id="selectAttachList" parameterType="int" resultType="kwang.ho.dto.board.AttachDTO">
         SELECT

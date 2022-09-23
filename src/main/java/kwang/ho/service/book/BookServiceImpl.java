@@ -50,7 +50,7 @@ public class BookServiceImpl implements BookService {
         }*/
         bookMapper.insertBook(bookDto);
         List<AttachDTO> fileList = fileUtils.uploadFiles(files, bookDto.getBid());
-        if (CollectionUtils.isEmpty(fileList) == false) {
+        if (!CollectionUtils.isEmpty(fileList)) {
 
             for(AttachDTO data: fileList){
                 System.out.println("data = " + data);
@@ -79,13 +79,37 @@ public class BookServiceImpl implements BookService {
 
     // 도서게시글 수정
     @Override
-    public void bookModify(BookDto bookDto) throws Exception {
+    public void bookModify(BookDto bookDto, MultipartFile[] files) throws Exception {
+
         bookMapper.bookModify(bookDto);
+
+        if ("Y".equals(bookDto.getChangeYn())) {
+            attachMapper.deleteAttach(bookDto.getBid());
+
+            // fileIdxs에 포함된 idx를 가지는 파일의 삭제여부를 'N'으로 업데이트
+            if (CollectionUtils.isEmpty(bookDto.getFileIdxs()) == false) {
+                attachMapper.undeleteAttach(bookDto.getFileIdxs());
+            }
+        }
+
+        List<AttachDTO> fileList = fileUtils.uploadFiles(files, bookDto.getBid());
+        if (!CollectionUtils.isEmpty(fileList)) {
+            attachMapper.modifyAttach(fileList);
+
+            for(AttachDTO data: fileList){
+                System.out.println("data = " + data);
+            }
+        }
     }
 
     // 도서게시글 갯수
     @Override
     public int selectBookTotalCount() throws Exception {
         return bookMapper.selectBookTotalCount();
+    }
+
+    @Override
+    public List<AttachDTO> getAttachFileList(int boardIdx) {
+        return attachMapper.selectAttachList(boardIdx);
     }
 }

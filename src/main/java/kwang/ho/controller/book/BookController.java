@@ -1,5 +1,6 @@
 package kwang.ho.controller.book;
 
+import kwang.ho.dto.board.AttachDTO;
 import kwang.ho.dto.board.PagingVO;
 import kwang.ho.dto.book.BookAttachDto;
 import kwang.ho.dto.book.BookDto;
@@ -50,6 +51,7 @@ public class BookController {
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/bookWrite.do")
     public String openBookWrite() throws Exception {
+
         return "/bookWrite";
     }
 
@@ -66,9 +68,13 @@ public class BookController {
 
     // 도서정보 상세보기
     @RequestMapping("/bookDetail.do")
-    public ModelAndView bookDetail(@RequestParam int bid) throws Exception {
+    public ModelAndView bookDetail(@RequestParam int bid, Model model) throws Exception {
         ModelAndView mv = new ModelAndView("/bookDetail");
         BookAttachDto bookDto = bookService.selectBookDetail(bid);
+
+        List<AttachDTO> fileList = bookService.getAttachFileList(bid);
+        model.addAttribute("fileList", fileList);
+
         mv.addObject("bookDto", bookDto);
         return mv;
     }
@@ -76,9 +82,13 @@ public class BookController {
     // 도서정보 수정페이지 호출
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/openBookModify.do")
-    public ModelAndView openBookModify(@RequestParam int bid) throws Exception {
+    public ModelAndView openBookModify(@RequestParam int bid,Model model) throws Exception {
         ModelAndView mv = new ModelAndView("/bookModify");
         BookDto bookDto = bookService.selectOpenBookModify(bid);
+
+        List<AttachDTO> fileList = bookService.getAttachFileList(bid);
+
+        model.addAttribute("fileList", fileList);
         mv.addObject("bookDto", bookDto);
         return mv;
     }
@@ -86,9 +96,9 @@ public class BookController {
     // 도서정보 수정
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/bookModify.do")
-    public String bookModify(BookDto bookDto, Principal principal) throws Exception {
+    public String bookModify(BookDto bookDto, MultipartFile[] files, Principal principal) throws Exception {
 
-        bookService.bookModify(bookDto);
+        bookService.bookModify(bookDto, files);
 
         return "redirect:/bookList.do";
     }
