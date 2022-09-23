@@ -2,6 +2,8 @@ package kwang.ho.dto.board;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class AttachDTO {
 
@@ -24,7 +26,7 @@ public class AttachDTO {
     private String delete_Yn;
 
     /** 생성 시간 */
-    private String insert_Time;
+    private LocalDateTime insert_Time;
 
     /** 삭제 시간 */
     private String delete_Time;

@@ -1,10 +1,10 @@
 package kwang.ho.controller.board;
 
-import com.google.gson.Gson;
 import kwang.ho.dto.board.AttachDTO;
 import kwang.ho.dto.board.BoardDto;
 import kwang.ho.dto.board.PagingVO;
 import kwang.ho.service.board.BoardService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.file.Paths;
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -63,9 +71,14 @@ public class BoardController {
 
     // 게시판 상세보기
     @RequestMapping("/boardDetail.do")
-    public ModelAndView boardDetail(@RequestParam int bid) throws Exception {
+    public ModelAndView boardDetail(@RequestParam int bid,Model model) throws Exception {
         ModelAndView mv = new ModelAndView("/boardDetail");
         BoardDto board = boardService.selectBoardDetail(bid);
+
+        //첨부 상세보기
+        List<AttachDTO> fileList = boardService.getAttachFileList(bid);
+        model.addAttribute("fileList",fileList);
+
         mv.addObject("board", board);
         return mv;
     }
@@ -128,5 +141,36 @@ public class BoardController {
         boardService.boardReply(board);
 
         return "redirect:/boardList.do";
+    }
+
+    @GetMapping("/boardDownload.do")
+    public void downloadAttachFile(@RequestParam(value="idx",required = false)final Integer idx, Model model, HttpServletResponse response) throws ParseException {
+        if (idx == null) throw new RuntimeException("올바르지 않은 접근입니다.");
+
+        AttachDTO fileInfo = boardService.getAttachDetail(idx);
+        if (fileInfo == null || "Y".equals(fileInfo.getDelete_Time())){
+            throw new RuntimeException("파일 정보를 찾을 수 없습니다.");
+        }
+
+        String uploadDate = fileInfo.getInsert_Time().format(DateTimeFormatter.ofPattern("yyMMdd"));
+        String uploadPath = Paths.get("C:","develop", "upload", uploadDate).toString();
+        String filename = fileInfo.getOriginal_Name();
+        File file = new File(uploadPath, fileInfo.getSave_Name());
+
+        try{
+            byte[] data = FileUtils.readFileToByteArray(file);
+            response.setContentType("application/octet-stream");
+            response.setContentLength(data.length);
+            response.setHeader("Content-Transfer-Encoding", "binary");
+            response.setHeader("Content-Disposition","attachment; fileName=\"" + URLEncoder.encode(filename, "UTF-8") + "\";");
+            response.getOutputStream().write(data);
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+
+        } catch (IOException e) {
+            throw new RuntimeException("파일 다운로드에 실패하였습니다.");
+        } catch (Exception e) {
+            throw new RuntimeException("시스템에 문제가 발생하였습니다.");
+        }
     }
 }

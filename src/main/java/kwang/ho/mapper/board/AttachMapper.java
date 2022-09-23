@@ -10,7 +10,7 @@ public interface AttachMapper {
 
     int modifyAttach(List<AttachDTO> attachList);
 
-    AttachDTO selectAttachDetail(Long idx);
+    AttachDTO selectAttachDetail(int idx);
 
     int deleteAttach(int boardIdx);
 

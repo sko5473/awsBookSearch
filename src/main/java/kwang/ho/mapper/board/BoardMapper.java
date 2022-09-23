@@ -47,4 +47,6 @@ public interface BoardMapper {
         // 부모 reply_Level, reply_Step, bid_Parent 조회
         BoardDto selectParentBoard(BoardDto boardDto) throws Exception;
 
+
+
 }

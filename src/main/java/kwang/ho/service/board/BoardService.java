@@ -44,4 +44,7 @@ public interface BoardService {
 
     // 게시판 답글 저장
     int boardReply(BoardDto boardDto) throws Exception;
+
+    //첨부파일idx로 첨부파일 상세조회
+    AttachDTO getAttachDetail(int idx);
 }
