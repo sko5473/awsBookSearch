@@ -44,7 +44,7 @@ public class BookController {
         model.addAttribute("paging", pagingVO);
         model.addAttribute("list", bookService.selectBookListWithPaging(pagingVO));
 
-        return "/bookList";
+        return "bookList";
     }
 
     // 도서정보 등록 페이지 이동
@@ -52,7 +52,7 @@ public class BookController {
     @RequestMapping("/bookWrite.do")
     public String openBookWrite() throws Exception {
 
-        return "/bookWrite";
+        return "bookWrite";
     }
 
     // 도서정보 등록
@@ -69,7 +69,7 @@ public class BookController {
     // 도서정보 상세보기
     @RequestMapping("/bookDetail.do")
     public ModelAndView bookDetail(@RequestParam int bid, Model model) throws Exception {
-        ModelAndView mv = new ModelAndView("/bookDetail");
+        ModelAndView mv = new ModelAndView("bookDetail");
         bookService.selectBestDetail(bid);
         BookDto bookDto = bookService.selectBookDetail(bid);
         System.out.println(bid);
@@ -84,7 +84,7 @@ public class BookController {
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/openBookModify.do")
     public ModelAndView openBookModify(@RequestParam int bid,Model model) throws Exception {
-        ModelAndView mv = new ModelAndView("/bookModify");
+        ModelAndView mv = new ModelAndView("bookModify");
         BookDto bookDto = bookService.selectOpenBookModify(bid);
 
         List<AttachDTO> fileList = bookService.getAttachFileList(bid);

@@ -30,7 +30,7 @@
         <![CDATA[
     select a.bid, a.book_Name, a.author, a.story, a.publication_Date,a.location, TO_CHAR(a.create_Date, 'YYYY-MM-DD HH24:MI:SS') AS create_Date, a.creator_Id,
     b.original_Name,b.save_Name,b.sizee,b.delete_Yn,b.insert_Time,b.delete_Time
-    from book a, "C##KWANG"."tb_attach" b
+    from book a, TB_ATTACH b
     where a.bid = #{bid} AND b.DELETE_YN='N' AND a.bid=b.board_IDX
 		 ]]>
     </select>

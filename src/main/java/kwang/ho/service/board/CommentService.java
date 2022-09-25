@@ -13,4 +13,5 @@ public interface CommentService {
     public int commentUpdateService(CommentDto commentDto) throws Exception;
 
     public int commentDeleteService(int cid) throws Exception;
+
 }

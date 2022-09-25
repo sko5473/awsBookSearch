@@ -20,7 +20,7 @@ public class ManageController {
     @RequestMapping("/manage")
     public String manage() throws Exception {
 
-        return "/manage/manage";
+        return "manage/manage";
     }
 
     // 관리자 권한 페이지 이동
@@ -29,7 +29,7 @@ public class ManageController {
 
         model.addAttribute("user", manageService.selectAdminUserList());
 
-        return "/manage/manageAuthUser";
+        return "manage/manageAuthUser";
     }
 
     // 관리자 권한 추가 페이지 이동
@@ -38,7 +38,7 @@ public class ManageController {
 
         model.addAttribute("user", manageService.selectUserList());
 
-        return "/manage/manageAuthUserSelect";
+        return "manage/manageAuthUserSelect";
     }
 
     // 체크된 유저 관리자 권한 부여
@@ -65,7 +65,7 @@ public class ManageController {
     @RequestMapping("/bestSeller")
     public String bestSeller() throws Exception{
 
-        return "/manage/manageBestSeller";
+        return "manage/manageBestSeller";
     }
 
     // 베스트셀러 목록 저장

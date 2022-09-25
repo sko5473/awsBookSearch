@@ -26,7 +26,7 @@ public class MainController {
      */
     @GetMapping
     public String root() {
-        return "/login";
+        return "login";
     }
 
     @RequestMapping("/main")
@@ -34,6 +34,6 @@ public class MainController {
 
         model.addAttribute("best", mainService.selectBestList());
 
-        return "/index";
+        return "index";
     }
 }

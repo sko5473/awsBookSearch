@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +19,6 @@ import java.net.URLEncoder;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -49,13 +47,13 @@ public class BoardController {
         model.addAttribute("paging", pagingVO);
         model.addAttribute("list", boardService.selectBoardListWithPaging(pagingVO));
 
-        return "/boardList";
+        return "boardList";
     }
 
     // 게시판 글쓰기페이지 이동
     @RequestMapping("/boardWrite.do")
     public String openBoardWrite() throws Exception {
-        return "/boardWrite";
+        return "boardWrite";
     }
 
     // 게시판 작성
@@ -72,7 +70,7 @@ public class BoardController {
     // 게시판 상세보기
     @RequestMapping("/boardDetail.do")
     public ModelAndView boardDetail(@RequestParam int bid,Model model) throws Exception {
-        ModelAndView mv = new ModelAndView("/boardDetail");
+        ModelAndView mv = new ModelAndView("boardDetail");
         BoardDto board = boardService.selectBoardDetail(bid);
 
         //첨부 상세보기
@@ -87,7 +85,7 @@ public class BoardController {
     @RequestMapping("/openBoardModify.do")
     public ModelAndView openBoardModify(@RequestParam int bid, Model model) throws Exception {
 
-        ModelAndView mv = new ModelAndView("/boardModify");
+        ModelAndView mv = new ModelAndView("boardModify");
         BoardDto board = boardService.selectOpenBoardModify(bid);
 
         List<AttachDTO> fileList = boardService.getAttachFileList(bid);
@@ -109,6 +107,7 @@ public class BoardController {
 
         String updater_Id = principal.getName();
         board.setUpdater_Id(updater_Id);
+
         boardService.boardModify(board, files);
 
         return "redirect:/boardList.do";
@@ -119,6 +118,7 @@ public class BoardController {
     @RequestMapping("/boardDelete.do")
     public String boardDelete(@RequestParam int bid, @RequestParam("creator_Id") String creator_Id, Principal principal) throws Exception {
 
+
         boardService.boardDelete(bid);
         return "redirect:/boardList.do";
     }
@@ -126,7 +126,7 @@ public class BoardController {
     // 게시판 답글쓰기 페이지 호출
     @RequestMapping("/boardReplyWrite.do")
     public ModelAndView boardReplyWrite(BoardDto board) throws Exception {
-        ModelAndView mv = new ModelAndView("/boardReplyWrite");
+        ModelAndView mv = new ModelAndView("boardReplyWrite");
         mv.addObject("board", board);
         return mv;
     }

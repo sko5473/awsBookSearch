@@ -130,20 +130,7 @@
         </div>
 
         <div style="text-align: center; margin: 20px 0px;" id="div_cmt_more">
-            <!-- 더보기 글자 hover 띄우기 -->
-            <span class="cmt_more_guide" id="cmt_more_guide" style="display: none; position: absolute;"></span>
-            <a href='javascript:void(0);' id='btn_cmt_more' style='position: relative;'>
-                <button th:text="더보기" id="imgMore" style="cursor:pointer; width: 100px;" />
-            </a>
-        </div>
-
-        <!-- 더보기 눌렀을때 추가 되는 댓글 영역 -->
-        <div class="board_cmt_list" id="cmtMore" style="display:none;"></div>
-        <div style="text-align: center; display:none; margin: 20px 0px;" id="div_cmt_back">
-            <span class="cmt_back_guide" id="cmt_back_guide" style="display: none; position: absolute;"></span>
-            <a href='javascript:void(0);' id='btn_cmt_back' style='position: relative;'>
-                <button th:text="더보기" id="imgBack" style="cursor:pointer; width: 100px;" />
-            </a>
+                <button th:text="더보기" id="cmtMore" style="cursor:pointer; width: 100px;" data-ui="1"/>
         </div>
         <!-- 댓글 종료 -->
 </div>
@@ -153,11 +140,8 @@
 <script>
     var bid = [[${board.bid}]];
 
-    // 댓글 저장버튼 클릭시 실행
-    $('[name=commentInsertBtn]').click(function(){
-        var insertData = $('[name=commentInsertForm]').serialize();
-        commentInsert(insertData);
-    });
+    // 화면 출력시 댓글 리스트 실행
+    commentList();
 
     // 댓글 리스트
     function commentList(){
@@ -167,8 +151,9 @@
             data : {'bid':bid},
             success : function(data){
                 var a = '';
+
                 $.each(data, function(key, value){
-                    a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
+                    a += '<div class="commentArea'+key+'" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
                     a += '<div class="commentInfo'+value.cid+'">'+'작성일 : '+value.create_Date+'&nbsp;&nbsp; /&nbsp;&nbsp; 작성자 : '+value.writer+
                     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                     a += '<a class="updateBtn" data-cid="'+value.cid+'" data-content="'+value.content+'" style="cursor:pointer;color:blue;text-decoration: none;">수정</a>';
@@ -178,9 +163,31 @@
                 });
 
                 $(".commentList").html(a);
-           }
+
+                for(var b = 5; b < data.length; b++){
+                    $(".commentArea"+b).css("display","none");
+                }
+            }
         });
     }
+
+    // 댓글더보기 로직
+    $('body').on('click','#cmtMore',function(e){
+
+        var a = Number($(this).attr("data-ui"));
+       $(this).attr("data-ui", a+5);
+       var b =Number($(this).attr("data-ui"));
+
+        for(var j=b; j < b+5; j++){
+            $(".commentArea"+j).css("display","block");
+        }
+    });
+
+    // 댓글 저장버튼 클릭시 실행
+    $('[name=commentInsertBtn]').click(function(){
+        var insertData = $('[name=commentInsertForm]').serialize();
+        commentInsert(insertData);
+    });
 
     // 댓글 저장
     function commentInsert(insertData){
@@ -197,6 +204,14 @@
         });
     }
 
+    // 댓글 수정 폼 함수 실행
+    $('body').on('click','.updateBtn',function(e){
+      // a 태그의 data 속성에 저장된 cid 값 가져오기
+      var cid = $(this).attr('data-cid');
+      var content = $(this).attr('data-content');
+      commentUpdate(cid,content);
+    });
+
     // 댓글 수정 폼 생성
     function commentUpdate(cid, content){
         var a = '';
@@ -208,6 +223,12 @@
 
         $('.commentContent'+cid).html(a);
     }
+
+    // 댓글 수정 함수 실행
+    $('body').on('click','#updateBtnProc',function(e){
+      var cid = $(this).attr('th:text');
+      commentUpdateProc(cid);
+    });
 
     // 댓글 수정
     function commentUpdateProc(cid){
@@ -223,6 +244,13 @@
         });
     }
 
+    // 댓글 삭제 함수 실행
+    $('body').on('click','.deleteBtn',function(e){
+      // a 태그의 data 속성에 저장된 cid 값 가져오기
+      var cid = $(this).attr('data-cid');
+      commentDelete(cid);
+    });
+
     // 댓글 삭제
     function commentDelete(cid){
         $.ajax({
@@ -236,33 +264,6 @@
             }
         });
     }
-
-    // 댓글 목록
-    $(document).ready(function(){
-        commentList();
-    });
-
-    // 댓글 삭제 함수 실행하기
-    $('body').on('click','.deleteBtn',function(e){
-      // a 태그의 data 속성에 저장된 cid 값 가져오기
-      var cid = $(this).attr('data-cid');
-      commentDelete(cid);
-    });
-
-    // 댓글 수정 폼 함수 실행하기
-    $('body').on('click','.updateBtn',function(e){
-      // a 태그의 data 속성에 저장된 cid 값 가져오기
-      var cid = $(this).attr('data-cid');
-      var content = $(this).attr('data-content');
-      commentUpdate(cid,content);
-    });
-
-    // 댓글 수정 함수 실행
-    $('body').on('click','#updateBtnProc',function(e){
-      var cid = $(this).attr('th:text');
-      commentUpdateProc(cid);
-    });
-
 </script>
 </body>
 </html>

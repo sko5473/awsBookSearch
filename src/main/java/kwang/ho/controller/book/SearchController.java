@@ -43,13 +43,13 @@ public class SearchController {
         model.addAttribute("paging", pagingVO);
         model.addAttribute("list", searchService.selectSearchListWithPaging(pagingVO));
 
-        return "/searchList";
+        return "searchList";
     }
 
     // 도서검색 상세보기
     @RequestMapping("/searchDetail.do")
     public ModelAndView searchDetail(@RequestParam int bid) throws Exception {
-        ModelAndView mv = new ModelAndView("/searchDetail");
+        ModelAndView mv = new ModelAndView("searchDetail");
         BookDto bookDto = searchService.selectSearchDetail(bid);
         mv.addObject("bookDto", bookDto);
         return mv;
@@ -61,7 +61,7 @@ public class SearchController {
 
         model.addAttribute("show", searchService.showCurrentBestList());
 
-        return "/manage/searchBestSeller";
+        return "manage/searchBestSeller";
     }
 
 }
