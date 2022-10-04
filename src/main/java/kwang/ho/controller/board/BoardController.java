@@ -154,7 +154,7 @@ public class BoardController {
         }
 
         String uploadDate = fileInfo.getInsert_Time().format(DateTimeFormatter.ofPattern("yyMMdd"));
-        String uploadPath = Paths.get("C:","develop", "upload", uploadDate).toString();
+        String uploadPath = Paths.get("/","home","ec2-user", "attach", uploadDate).toString();
         String filename = fileInfo.getOriginal_Name();
         File file = new File(uploadPath, fileInfo.getSave_Name());
 

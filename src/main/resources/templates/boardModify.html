@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
-    <title>도서검색시스템</title>
+    <th:block th:replace="/layout/header :: headFragment"></th:block>
 </head>
 <style>
     /*
@@ -62,111 +62,71 @@
 
 </style>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/main">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</nav>
 
 <div class="container">
 
-<div class="table table-striped" style="width:1200px; margin:0 auto;">
-    <div class="fw-light fs-3 text-center" style="float:none; margin:0 auto; height:80px;">공지사항 수정</div>
-    <form action="/boardModify.do" id="frm" name="frm" method="post" th:object="${board}" enctype="multipart/form-data">
-        <input type="hidden" id="bid" name="bid" th:value="${board.bid}">
-        <input type="hidden" id="creator_Id" name="creator_Id" th:value="${board.creator_Id}">
-        <!--/* 파일이 변경된 경우, 해당 파라미터를 이용하여 파일 삭제 및 재등록 처리 */-->
-        <input type="hidden" th:field="*{changeYn}" value="N" />
+    <div class="table table-striped" style="width:1200px; margin:0 auto;">
+        <div class="fw-light fs-3 text-center" style="float:none; margin:0 auto; height:80px;">공지사항 수정</div>
+        <form action="/boardModify.do" id="frm" name="frm" method="post" th:object="${board}" enctype="multipart/form-data">
+            <input type="hidden" id="bid" name="bid" th:value="${board.bid}">
+            <input type="hidden" id="creator_Id" name="creator_Id" th:value="${board.creator_Id}">
+            <!--/* 파일이 변경된 경우, 해당 파라미터를 이용하여 파일 삭제 및 재등록 처리 */-->
+            <input type="hidden" th:field="*{changeYn}" value="N" />
 
-        <button type="submit" class="btn btn-success"  id="edit" style="float: right;">수정</button>
-        <div style="height:50px"></div>
-        <table class="table table-striped" style="width:1200px; margin:0 auto;">
-            <tr>
-                <td class="text-center h5">제목</td>
-                <td><input type="text" id="title" name="title" class="col-11" th:value="${board.title}" /></td>
-            </tr>
-            <tr>
-                <td colspan="2">
+            <button type="submit" class="btn btn-success"  id="edit" style="float: right;">수정</button>
+            <div style="height:50px"></div>
+            <table class="table table-striped" style="width:1200px; margin:0 auto;">
+                <tr>
+                    <td class="text-center h5">제목</td>
+                    <td><input type="text" id="title" name="title" class="col-11" th:value="${board.title}" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
                         <textarea id="contents" name="contents" rows="20" cols="156"  th:text="${board.contents}"
                                   style="resize: none;"></textarea>
-                </td>
-            </tr>
-        </table>
-        <!--/* 저장된 파일이 없는 파일 영역 */-->
-        <div th:if="${#lists.isEmpty( fileList )}" data-name="fileDiv" class="form-group filebox bs3-primary">
-            <label for="file_0" class="col-sm-2 control-label">파일1</label>
-            <div class="col-sm-10">
-                <input type="text" class="upload-name" value="파일 찾기" readonly />
-                <label for="file_0" class="control-label">찾아보기</label>
-                <input type="file" name="files" id="file_0" class="upload-hidden" onchange="changeFilename(this)" />
+                    </td>
+                </tr>
+            </table>
+            <!--/* 저장된 파일이 없는 파일 영역 */-->
+            <div th:if="${#lists.isEmpty( fileList )}" data-name="fileDiv" class="form-group filebox bs3-primary">
+                <label for="file_0" class="col-sm-2 control-label">파일1</label>
+                <div class="col-sm-10">
+                    <input type="text" class="upload-name" value="파일 찾기" readonly />
+                    <label for="file_0" class="control-label">찾아보기</label>
+                    <input type="file" name="files" id="file_0" class="upload-hidden" onchange="changeFilename(this)" />
 
-                <button type="button" onclick="addFile()" class="btn btn-outline-secondary btn-sm">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
-                <button type="button" onclick="removeFile(this)" class="btn btn-outline-secondary btn-sm" id="btn2">
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                </button>
+                    <button type="button" onclick="addFile()" class="btn btn-outline-secondary btn-sm">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" onclick="removeFile(this)" class="btn btn-outline-secondary btn-sm" id="btn2">
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <!--/* 저장된 파일이 있는 파일 영역 */-->
-        <div th:unless="${#lists.isEmpty(fileList)}" th:each="row, status : ${fileList}" data-name="fileDiv" class="form-group filebox bs3-primary">
-            <label th:for="|file_${status.index}|" class="col-sm-2 control-label">[[ |파일${status.count}| ]]</label><!--첨부파일 위 파일1같은 명칭 -->
-            <div class="col-sm-10">
-                <input type="hidden" name="fileIdxs" th:value="${row.idx}" />
-                <input type="text" class="upload-name" th:value="${row.original_Name}" readonly />
-                <label th:for="|file_${status.index}|" class="control-label">찾아보기</label>
-                <input type="file" name="files" th:id="|file_${status.index}|" class="upload-hidden" onchange="changeFilename(this)" />
+            <!--/* 저장된 파일이 있는 파일 영역 */-->
+            <div th:unless="${#lists.isEmpty(fileList)}" th:each="row, status : ${fileList}" data-name="fileDiv" class="form-group filebox bs3-primary">
+                <label th:for="|file_${status.index}|" class="col-sm-2 control-label">[[ |파일${status.count}| ]]</label><!--첨부파일 위 파일1같은 명칭 -->
+                <div class="col-sm-10">
+                    <input type="hidden" name="fileIdxs" th:value="${row.idx}" />
+                    <input type="text" class="upload-name" th:value="${row.original_Name}" readonly />
+                    <label th:for="|file_${status.index}|" class="control-label">찾아보기</label>
+                    <input type="file" name="files" th:id="|file_${status.index}|" class="upload-hidden" onchange="changeFilename(this)" />
 
-                <button th:if="${status.first}" type="button" onclick="addFile()" class="btn btn-outline-secondary btn-sm">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
-                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="removeFile(this)">
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                </button>
+                    <button th:if="${status.first}" type="button" onclick="addFile()" class="btn btn-outline-secondary btn-sm">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="removeFile(this)">
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <div id="btnDiv" class="btn_wrap text-center">
+            <div id="btnDiv" class="btn_wrap text-center">
 
-        </div>
-    </form>
-</div>
+            </div>
+        </form>
+    </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- JavaScript Bundle with Popper -->

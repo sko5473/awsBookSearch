@@ -41,6 +41,7 @@ dependencies {
 	implementation 'com.oracle.database.security:oraclepki'
 	implementation 'com.oracle.database.security:osdt_core'
 	implementation 'com.oracle.database.security:osdt_cert'
+	implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect'
 }
 
 tasks.named('test') {

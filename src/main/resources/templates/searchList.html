@@ -47,9 +47,9 @@ ul li {
                 <td th:text="${list.publication_Date}"></td>
                 <td th:text="${list.location}"></td>
             </tr>
-<!--            <tr>
-                <td th:text="${list.story}"></td>
-            </tr>-->
+            <!--            <tr>
+                            <td th:text="${list.story}"></td>
+                        </tr>-->
             <tr th:if="${#lists.isEmpty(list)}">
                 <td colspan="4">조회된 결과가 없습니다.</td>
             </tr>

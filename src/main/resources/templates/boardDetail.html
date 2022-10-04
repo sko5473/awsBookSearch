@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
-    <title>도서검색시스템</title>
+    <th:block th:replace="/layout/header :: headFragment"></th:block>
 </head>
 <style>
     a{
@@ -11,54 +12,6 @@
         color:black;
     }
 </style>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/main">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-
-            ID : <span sec:authentication="principal.user_Id" style="font-weight:bold;"></span>
-            <span>님 환영합니다.&nbsp;&nbsp;&nbsp;</span>
-            <form id="logout" action="/logout" method="POST">
-                <input type="submit" value="로그아웃"/>
-            </form>
-            <span>&nbsp;&nbsp;&nbsp;</span>
-
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</nav>
 
 <body>
 
@@ -78,29 +31,29 @@
     </div>
 
     <div style="height:50px;"></div>
-        <table class="table border border-2" style="width:1200px; margin:0 auto;">
-            <tbody>
-            <tr>
-                <th scope="row" class="table-secondary">글 번호</th>
-                <td th:text="${board.bid}"></td>
-                <th scope="row" class="table-secondary">조회수</th>
-                <td th:text="${board.hit_Cnt}"></td>
-                <th scope="row" class="table-secondary">작성자</th>
-                <td th:text="${board.creator_Id}"></td>
-                <th scope="row" class="table-secondary">작성일</th>
-                <td th:text="${board.created_Datetime}" ></td>
-            </tr>
-            <tr>
-                <th scope="row" class="border table-secondary">&nbsp;&nbsp;제목</th>
-                <td id="title" name="title" th:text="${board.title}" colspan="7"></td>
+    <table class="table border border-2" style="width:1200px; margin:0 auto;">
+        <tbody>
+        <tr>
+            <th scope="row" class="table-secondary">글 번호</th>
+            <td th:text="${board.bid}"></td>
+            <th scope="row" class="table-secondary">조회수</th>
+            <td th:text="${board.hit_Cnt}"></td>
+            <th scope="row" class="table-secondary">작성자</th>
+            <td th:text="${board.creator_Id}"></td>
+            <th scope="row" class="table-secondary">작성일</th>
+            <td th:text="${board.created_Datetime}" ></td>
+        </tr>
+        <tr>
+            <th scope="row" class="border table-secondary">&nbsp;&nbsp;제목</th>
+            <td id="title" name="title" th:text="${board.title}" colspan="7"></td>
 
-            </tr>
-            <tr height="400">
-                <td id="contents" name="contents" th:text="${board.contents}"></td>
-            </tr>
-            </tbody>
+        </tr>
+        <tr height="400">
+            <td id="contents" name="contents" th:text="${board.contents}"></td>
+        </tr>
+        </tbody>
 
-        </table>
+    </table>
     <div style="height:10px;"></div>
     <div th:if="${not #lists.isEmpty( fileList )}" class="form-group" style="width:1200px; margin:0 auto;">
         <label for="fileArea" class="col-sm-2 control-label">첨부파일</label>
@@ -108,33 +61,32 @@
             <div class="form-control file_list" id="fileArea">
                 <a th:each="row, status : ${fileList}" th:href="@{/boardDownload.do( idx=${row.idx} )}">
                     <i class="fa fa-file-o" aria-hidden="true" style="margin-right:13px;">
-                    [[ ${row.original_Name} ]]
+                        [[ ${row.original_Name} ]]
                     </i>
                 </a>
             </div>
         </div>
     </div>
-        <!-- 댓글 시작 -->
-        <form name="commentInsertForm">
-            <div class="card mb-2" style="width:1200px; margin:0 auto;">
-                <input th:type="hidden" th:name="bid" th:value="${board.bid}"/>
-                <textarea placeholder="댓글 입력" th:name="content" th:class="form-control"  id="content" style="height: 100px; resize:none;"></textarea>
-                <div>
-                    <button th:type="button" id="comment-btn" class="btn btn-primary" name="commentInsertBtn">저장</button>
-                </div>
+    <!-- 댓글 시작 -->
+    <form name="commentInsertForm">
+        <div class="card mb-2" style="width:1200px; margin:0 auto;">
+            <input th:type="hidden" th:name="bid" th:value="${board.bid}"/>
+            <textarea placeholder="댓글 입력" th:name="content" th:class="form-control"  id="content" style="height: 100px; resize:none;"></textarea>
+            <div>
+                <button th:type="button" id="comment-btn" class="btn btn-primary" name="commentInsertBtn">저장</button>
             </div>
-        </form>
-
-        <div class="container" style="width:1200px;">
-            <div class="commentList"></div>
         </div>
+    </form>
 
-        <div style="text-align: center; margin: 20px 0px;" id="div_cmt_more">
-                <button th:text="더보기" id="cmtMore" style="cursor:pointer; width: 100px;" data-ui="1"/>
-        </div>
-        <!-- 댓글 종료 -->
+    <div class="container" style="width:1200px;">
+        <div class="commentList"></div>
+    </div>
+
+    <div style="text-align: center; margin: 20px 0px;" id="div_cmt_more">
+        <button th:text="더보기" id="cmtMore" style="cursor:pointer; width: 100px;" data-ui="1"/>
+    </div>
+    <!-- 댓글 종료 -->
 </div>
-
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <!--<script type="text/javascript" src="boardjs/boardDetailComment.js"/>-->
 <script>

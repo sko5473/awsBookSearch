@@ -36,4 +36,10 @@ public class MainController {
 
         return "index";
     }
+
+    @RequestMapping("/goShopGuide")
+    public String goShopGuide() throws Exception {
+
+        return "shopGuide";
+    }
 }

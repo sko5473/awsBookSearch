@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>도서검색시스템</title>
+    <th:block th:replace="/layout/header :: headFragment"></th:block>
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
 </head>
 
 <style>
-
 
 ul li {
     float: left;
@@ -15,51 +14,6 @@ ul li {
 
 </style>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/main">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-
-            ID : <span sec:authentication="principal.user_Id" style="font-weight:bold;"></span>
-            <span>님 환영합니다.&nbsp;&nbsp;&nbsp;</span>
-            <form id="logout" action="/logout" method="POST">
-                <input type="submit" value="로그아웃"/>
-            </form>
-            <span>&nbsp;&nbsp;&nbsp;</span>
-
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</nav>
-<!--헤더 끝-->
 
 <div class="container">
     <div class="fw-light fs-3 text-center " style="float:none; margin:0 auto; height:50px">공지사항</div>
@@ -78,59 +32,59 @@ ul li {
             </select>
         </div> <!-- 옵션선택 끝 -->
 
-    <table class="table table-striped">
-        <colgroup>
-            <col width="15%"/>
-            <col width="45%"/>
-            <col widht="10%"/>
-            <col width="10%"/>
-            <col width="20%"/>
-        </colgroup>
-        <thead>
-        <tr>
-            <th scope="col">글번호</th>
-            <th scope="col">제목</th>
-            <th scope="col">작성자</th>
-            <th scope="col">조회수</th>
-            <th scope="col">작성일</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}">
-            <td th:text="${list.bid}"></td>
-            <td class="title">
-                <th:block th:each="Level : ${#numbers.sequence(0,list.reply_Level)}">
-                    <th:block th:if="${Level} != 0">&nbsp;&nbsp;&nbsp;</th:block>
-                </th:block>
-                <a href="boardDetail.do?bid=" th:attrappend="href=${list.bid}" th:text="${list.title}" style="text-decoration-line:none;
+        <table class="table table-striped">
+            <colgroup>
+                <col width="15%"/>
+                <col width="45%"/>
+                <col widht="10%"/>
+                <col width="10%"/>
+                <col width="20%"/>
+            </colgroup>
+            <thead>
+            <tr>
+                <th scope="col">글번호</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">조회수</th>
+                <th scope="col">작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}">
+                <td th:text="${list.bid}"></td>
+                <td class="title">
+                    <th:block th:each="Level : ${#numbers.sequence(0,list.reply_Level)}">
+                        <th:block th:if="${Level} != 0">&nbsp;&nbsp;&nbsp;</th:block>
+                    </th:block>
+                    <a href="boardDetail.do?bid=" th:attrappend="href=${list.bid}" th:text="${list.title}" style="text-decoration-line:none;
                 color:black;"></a>
-            </td>
-            <td th:text="${list.creator_Id}"></td>
-            <td th:text="${list.hit_Cnt}"></td>
-            <td th:text="${list.created_Datetime}"></td>
-        </tr>
-        <tr th:unless="${#lists.size(list)} > 0">
-            <td colspan="4">조회된 결과가 없습니다.</td>
-        </tr>
-        </tbody>
-    </table>
+                </td>
+                <td th:text="${list.creator_Id}"></td>
+                <td th:text="${list.hit_Cnt}"></td>
+                <td th:text="${list.created_Datetime}"></td>
+            </tr>
+            <tr th:unless="${#lists.size(list)} > 0">
+                <td colspan="4">조회된 결과가 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
-<div style="display: block; text-align: center;">
-    <ul class="pagination justify-content-center">
-        <li th:if="${paging.startPage != 1} " class="page-item">
-            <a th:href="@{/boardList.do(nowPage=${paging.startPage - 1 },cntPerPage=${paging.cntPerPage})}" class="page-link">&lt;</a>
-        </li>
+    <div style="display: block; text-align: center;">
+        <ul class="pagination justify-content-center">
+            <li th:if="${paging.startPage != 1} " class="page-item">
+                <a th:href="@{/boardList.do(nowPage=${paging.startPage - 1 },cntPerPage=${paging.cntPerPage})}" class="page-link">&lt;</a>
+            </li>
 
-        <li th:each="page : ${#numbers.sequence(paging.startPage,paging.endPage)}" class="page-item" th:classappend="${page == paging.nowPage} ? 'active'" >
-            <a th:text="${page}" class="page-link" th:href="@{/boardList.do(nowPage=${page },cntPerPage=${paging.cntPerPage})}"></a>
-        </li>
+            <li th:each="page : ${#numbers.sequence(paging.startPage,paging.endPage)}" class="page-item" th:classappend="${page == paging.nowPage} ? 'active'" >
+                <a th:text="${page}" class="page-link" th:href="@{/boardList.do(nowPage=${page },cntPerPage=${paging.cntPerPage})}"></a>
+            </li>
 
-        <li th:if="${paging.endPage != paging.lastPage}" class="page-item">
-            <a th:href="@{/boardList.do(nowPage=${paging.endPage+1 },cntPerPage=${paging.cntPerPage})}" class="page-link">&gt;</a>
-        </li>
-    </ul>
-</div>
+            <li th:if="${paging.endPage != paging.lastPage}" class="page-item">
+                <a th:href="@{/boardList.do(nowPage=${paging.endPage+1 },cntPerPage=${paging.cntPerPage})}" class="page-link">&gt;</a>
+            </li>
+        </ul>
+    </div>
 </div>
 </body>
 

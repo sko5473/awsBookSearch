@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<th:block th:fragment="headFragment">
+    <title>도서검색시스템</title>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">&nbsp;Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/main">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/goShopGuide">찾아오시는 길</a>
+                    </li>
+                </ul>
+
+                <button onclick="location.href='/manage/manage'" class="btn btn-success" sec:authorize="hasRole('ADMIN')">관리자페이지</button>
+
+                ID : <span sec:authentication="principal.user_Id" style="font-weight:bold;"></span>
+                <span>님 환영합니다.&nbsp;&nbsp;&nbsp;</span>
+                <form id="logout" action="/logout" method="POST">
+                    <input type="submit" value="로그아웃"/>
+                </form>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+        </div>
+    </nav>
+</th:block>
+</html>
