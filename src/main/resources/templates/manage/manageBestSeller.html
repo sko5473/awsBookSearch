@@ -72,9 +72,9 @@ margin:  0;
 
         <main class="col-9 py-md-3 pl-md-5 bd-content" role="main">
             <form action="/manage/bestSellerSave" id="frm" name="frm" method="post">
-            <div>
-                <div style="float:left;"><button th:type="button" class="btn btn-primary" th:name="btnSearch" id="bestSearch1">변경</button></div>
-            </div>
+                <div>
+                    <div style="float:left;"><button th:type="button" class="btn btn-primary" th:name="btnSearch" id="bestSearch1">변경</button></div>
+                </div>
             </form>
         </main>
     </div>
@@ -82,19 +82,7 @@ margin:  0;
 
 
 </body>
-<!-- footer-->
-<div style = "text-align:center;" class="container-fluid navbar-fixed-bottom">
-    <div style="font-size:.6rem;">
-        <span>사업자번호</span> |
-        <span>사업주</span> |
-        <span>문의전화 : 1234-1234</span>
-    </div>
-    <div style="margin-top:1rem;">
-        <h6 style="font-family: 'Lobster', cursive;">KHBookStore</h6>
-    </div>
-
-</div>
-<!-- footer-->
+<th:block th:replace="/layout/footer :: footerFragment"></th:block>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- JavaScript Bundle with Popper -->

@@ -2,33 +2,28 @@
 <html lagn="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <th:block th:fragment="headFragment">
     <title>도서검색시스템</title>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">&nbsp;Navbar</a>
+            <a class="navbar-brand" href="/main">&nbsp;KHbookStore</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/main">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
+                            게시판
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" th:onclick="location.href='/boardList.do'">공지사항</a></li>
+                            <th:block sec:authorize="hasRole('ADMIN')">
+                                <li><a class="dropdown-item" th:onclick="location.href='/bookList.do'">도서</a></li>
+                            </th:block>
+                            <li><a class="dropdown-item">도서 중고장터</a></li>
+                            <li><a class="dropdown-item">도서 구매요청</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -44,7 +39,6 @@
                     <input type="submit" value="로그아웃"/>
                 </form>
                 <span>&nbsp;&nbsp;&nbsp;</span>
-
             </div>
         </div>
     </nav>
